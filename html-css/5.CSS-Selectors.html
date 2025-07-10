@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Selectors Example</title>
+  <style>
+    /* 1. Element Selector */
+    h1 {
+      color: rgb(39, 0, 139);
+      text-align: center;
+    }
+
+    /* 2. Class Selector */
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
+
+    /* 3. ID Selector */
+    #special {
+      color: red;
+      font-size: 1.5rem;
+    }
+
+    /* 4. Grouping Selector */
+    h2, h3 {
+      color: green;
+      text-decoration: underline;
+    }
+
+    /* 5. Descendant Selector */
+    .container p {
+      color: purple;
+    }
+
+    /* 6. Child Selector */
+    .container > span {
+      color: orange;
+      font-style: italic;
+    }
+
+    /* 7. Attribute Selector */
+    input[type="text"] {
+      border: 2px solid blue;
+      padding: 5px;
+    }
+
+    /* 8. Pseudo-class Selector */
+    a:hover {
+      color: crimson;
+      text-decoration: underline;
+    }
+
+    /* 9. Pseudo-element Selector */
+    p::first-letter {
+      font-size: 1.5rem;
+      color: teal;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Selectors Demo</h1>
+
+  <h2>Subheading Styled by Group Selector</h2>
+  <h3>Another Heading with Group Selector</h3>
+
+  <p>This is a normal paragraph.</p>
+
+  <p class="highlight">This paragraph uses the <b>class selector</b>.</p>
+
+  <p id="special">This paragraph uses the <b>ID selector</b>.</p>
+
+  <div class="container">
+    <div>
+    <p>Paragraph inside container (descendant selector).</p>
+    </div>
+    
+    <span>Direct child span (child selector).</span>
+    
+  </div>
+
+  <h2>Attribute Selector Example</h2>
+  <input type="text" placeholder="Enter text here">
+  <input type="password" placeholder="Password (no

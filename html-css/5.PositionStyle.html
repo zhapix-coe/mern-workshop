@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Position Examples</title>
+  <style>
+    .box {
+      width: 150px;
+      height: 100px;
+      background-color: lightblue;
+      border: 2px solid #333;
+      margin: 20px;
+      text-align: center;
+      line-height: 100px;
+      font-weight: bold;
+    }
+
+    /* 1. Static (default) */
+    .static-box {
+      position: static;
+      left:50px;
+      top:50px;
+    }
+
+    /* 2. Relative */
+    .relative-box {
+      position: relative;
+      left: 20px;
+      top: 20px;
+      background-color: lightgreen;
+    }
+
+    /* 3. Absolute */
+    .container {
+      position: relative;
+      width: 500px;
+      height: 200px;
+      border: 2px dashed gray;
+      margin-bottom: 30px;
+    }
+
+    .absolute-box {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: lightcoral;
+    }
+
+    /* 4. Fixed */
+    .fixed-box {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: gold;
+      z-index: 1000;
+    }
+
+    /* 5. Sticky */
+    .sticky-box {
+      position: sticky;
+      top: 10px;
+      background-color: violet;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>1️⃣ Static Position (Default)</h2>
+  <div class="box static-box">Static</div>
+
+  <h2>2️⃣ Relative Position</h2>
+  <button>New Button</button>
+  <div class="box relative-box">Relative</div>
+  
+
+  <h2>3️⃣ Absolute Position (inside container)</h2>
+  <div class="container">
+    <div class="box absolute-box">Absolute</div>
+    <p>Other content inside container</p>
+  </div>
+
+  <h2>4️⃣ Fixed Position (always bottom-right)</h2>
+  <div class="box fixed-box">Fixed</div>
+
+  <h2>5️⃣ Sticky Position (sticks on scroll)</h2>
+  <div class="box sticky-box">Sticky Header</div>
+
+  <p style="height: 1500px;">Scroll down to test sticky and fixed positions.</p>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Box Model Example</title>
+  <style>
+    .box {
+      width: 300px;
+      height: 100px;
+      padding: 50px;  
+      border: 15px solid blue;
+      margin: 50px;
+      background-color: lightyellow;
+      box-sizing: content-box; /* Default behavior */
+    }
+
+    .outer-container {
+      background-color: lightgray;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>CSS Box Model Demonstration</h2>
+
+  <div class="outer-container">
+    <div class="box">
+      Content Area
+    </div>
+  </div>
+
+  <p>The yellow area is the <b>content</b>, inside padding (20px), surrounded by a blue border (5px), and with margin (30px) around the box.</p>
+
+</body>
+</html>

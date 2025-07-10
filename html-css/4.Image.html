@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Display Examples</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .background-image {
+      width: 300px;
+      height: 200px;
+      background-image: url('https://picsum.photos/id/1035/200/150');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #000;
+      margin-bottom: 20px;
+    }
+    .image-box {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Image using &lt;img&gt; Tag</h2>
+  <div class="image-box">
+    <img src="https://picsum.photos/id/1035/200/150" alt="Example Image">
+  </div>
+
+  <h2> Image using CSS Background</h2>
+  <div class="image-box background-image"></div>
+
+  <h2> Responsive Image using &lt;picture&gt; Tag</h2>
+  <div class="image-box">
+    <picture>
+      <source srcset="https://picsum.photos/id/1035/200/150" media="(min-width: 768px)">
+      <source srcset="https://picsum.photos/id/1050/200/150" media="(max-width: 767px)">
+            <img src="https://picsum.photos/id/1050/200/150" alt="Responsive Example">
+
+
+    </picture>
+  </div>
+
+  <h2> Inline SVG Image</h2>
+  <div class="image-box">
+    <svg width="100" height="100">
+      <circle cx="50" cy="50" r="40" fill="green" />
+    </svg>
+  </div>
+
+  <h2> Image on &lt;canvas&gt; via JavaScript</h2>
+  <div class="image-box">
+    <canvas id="myCanvas" width="300" height="200" style="border:1px solid black;"></canvas>
+  </div>
+
+  <h2> Image via &lt;iframe&gt; (Not recommended for static images)</h2>
+  <div class="image-box">
+    <iframe src="https://picsum.photos/id/1035/200/150" width="300" height="200"></iframe>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = 'https://picsum.photos/id/1035/200/150';
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  </script>
+
+</body>
+</html>
