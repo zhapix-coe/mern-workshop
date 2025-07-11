@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Selection and Manipulation</title>
+  <style>
+    
+    .highlight {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="mainTitle">DOM Selection Demo</h1>
+
+  <p class="info">This is a paragraph with class.</p>
+  <p class="info">Another paragraph with same class.</p>
+
+  <input type="text" name="username" value="John" />
+  <input type="text" name="username" value="Jane" />
+
+  <div>
+    <p>This is inside a div</p>
+    <span>This is a span</span>
+  </div>
+
+  <ul id="fruitList">
+    <li>Apple</li>
+    <li>Banana</li>
+  </ul>
+
+  <button id="demoBtn">Run DOM Demo</button>
+
+  <script>
+
+document.getElementById("demoBtn").addEventListener("click", () => {
+  // 1. getElementById
+  const title = document.getElementById("mainTitle");
+  title.style.color = "green";
+  title.textContent = "Title changed via getElementById";
+
+  // 2. getElementsByClassName
+  const infos = document.getElementsByClassName("info");
+  for (let el of infos) {
+    el.classList.add("highlight");
+    el.textContent += " (highlighted)";
+  }
+
+  // 3. getElementsByName
+  const nameInputs = document.getElementsByName("username");
+  nameInputs.forEach(input => {
+    input.style.border = "2px solid blue";
+  });
+
+  // 4. getElementsByTagName
+  const paragraphs = document.getElementsByTagName("p");
+  paragraphs[0].style.fontStyle = "italic";
+
+  // 5. querySelector (first match)
+  const firstSpan = document.querySelector("span");
+  firstSpan.textContent = "Span selected by querySelector";
+
+  // 6. querySelectorAll (all matches)
+  const listItems = document.querySelectorAll("#fruitList li");
+  listItems.forEach((li, index) => {
+    li.textContent = `Fruit ${index + 1}: ${li.textContent}`;
+    li.style.fontWeight = "bold";
+  });
+});
+
+
+
+  </script>
+</body>
+</html>

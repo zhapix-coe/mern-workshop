@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ES6+ Demo</title>
+  </head>
+  <body>
+    <script>
+      // 1. let and const
+      let count = 3;
+      const nameVal = 'Advanced JavaScript Demo!';
+      console.log('********************************************************');
+
+      // 2. Arrow function
+      const greet = (user) => `Hello, ${user}!`;
+      console.log(greet(nameVal));
+      console.log('********************************************************');
+
+      // 3. Destructuring (array)
+      const [a, b] = [100, 200];
+      console.log('Destructured values:', a, b); // 100 200
+      console.log('********************************************************');
+
+      // 4. Destructuring (object)
+      const user = { id: 1, username: 'alice', age: 25 };
+      const { username, age } = user;
+      console.log(`User: ${username}, Age: ${age}`);
+      console.log('********************************************************');
+
+      // 5. Spread operator (expands an array)
+      const nums = [1, 2, 3];
+      const newNums = [...nums, 4, 5];
+      console.log('Spread:', newNums); // [1, 2, 3, 4, 5]
+      console.log('********************************************************');
+
+      // 6. Rest operator (collects extra arguments)
+      const sum = (...args) => args.reduce((a, b) => a + b, 0);
+      console.log('Sum:', sum(10, 20, 30)); // 60
+      console.log('********************************************************');
+
+      // 7. Template literals
+      const msg = `Welcome, ${username}! You are ${age} years old.`;
+      console.log('Message:', msg);
+      console.log('********************************************************');
+
+      // 8. Promise (basic usage)
+      const fetchData = () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('✅ Data loaded');
+          }, 1000);
+        });
+      };
+      console.log('********************************************************');
+
+      // 9. Async/await
+      const load = async () => {
+        console.log('Loading...');
+        const result = await fetchData();
+        console.log(result);
+      };
+
+      load();
+      console.log('********************************************************');
+    </script>
+  </body>
+</html>

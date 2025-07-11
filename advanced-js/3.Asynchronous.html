@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Async Programming Demo</title>
+</head>
+<body>
+  <button id="loadBtn">Load User (Async)</button>
+  <div id="output"></div>
+
+  <script>
+    const output = document.getElementById("output");
+
+    // 1️⃣ Callback-based async (using setTimeout)
+    function getUserCallback(callback) {
+      setTimeout(() => {
+        callback("User from callback");
+      }, 1000);
+    }
+
+    // 2️⃣ Promise-based async
+    function getUserPromise() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve("User from Promise");
+        }, 1000);
+      });
+    }
+
+    // 3️⃣ Async/Await with Promise
+    async function getUserAsync() {
+      const result = await getUserPromise();
+      return `Awaited: ${result}`;
+    }
+
+    // 4️⃣ Simulate fetch (mock)
+    function fakeFetch(url) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve({ json: () => ({ name: "Async Fetched User" }) });
+        }, 1000);
+      });
+    }
+
+    // 5️⃣ Event-driven: Click to load user
+    document.getElementById("loadBtn").addEventListener("click", async () => {
+      output.innerHTML = "Loading...";
+
+      // Callback example
+      getUserCallback(result => {
+        console.log(result);
+      });
+
+      // Promise example
+      getUserPromise().then(result => {
+        console.log(result);
+      });
+
+      // Async/Await
+      const result = await getUserAsync();
+      console.log(result);
+
+      // Fetch (mock)
+      const response = await fakeFetch("https://api.example.com/user");
+      const user = await response.json();
+      console.log("Fetch result:", user.name);
+
+      output.innerHTML = `
+        Done! Check console.<br/>
+        Latest user: ${user.name}
+      `;
+    });
+
+    // 6️⃣ setInterval – update every 2 seconds
+    let count = 0;
+    setInterval(() => {
+      console.log(`Timer Tick: ${++count}`);
+    }, 2000);
+  </script>
+</body>
+</html>

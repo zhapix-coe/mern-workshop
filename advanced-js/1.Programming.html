@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Paradigms Demo</title>
+</head>
+<body>
+  <script>
+
+// =====================
+// 1. Imperative
+// =====================
+console.log("Imperative Programming");
+
+let numbers = [1, 2, 3];
+let doubled = [];
+for (let i = 0; i < numbers.length; i++) {
+  doubled.push(numbers[i] * 2);  // step-by-step instruction
+}
+console.log("1.Doubled (Imperative):", doubled);
+console.log("************************************************");
+
+// =====================
+// 2. Declarative
+// =====================
+console.log("Declarative Programming");
+
+let declarativeDoubled = numbers.map(num => num * 2);  // what to do, not how to do
+console.log("2.Doubled (Declarative):", declarativeDoubled);
+
+console.log("************************************************");
+// =====================
+// 3. Object-Oriented Programming
+// =====================
+console.log("Object-Oriented Programming");
+
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log(`3.Hello, I'm ${this.name}`);
+  }
+}
+
+const john = new Person("John");
+john.greet();
+
+console.log("************************************************");
+// =====================
+// 4. Functional Programming
+// =====================
+//Pure function to check if a number is even
+const isEven = num => num % 2 === 0;
+
+//Pure function to double a number
+const double = num => num * 2;
+
+//Main function using functional approach
+const doubleEvens = nums => nums.filter(isEven).map(double);
+
+//Sample input
+const sampleNumbers = [1, 2, 3, 4, 5, 6];
+
+//Result
+const result = doubleEvens(sampleNumbers);
+
+console.log("4.Original:", sampleNumbers);      // [1, 2, 3, 4, 5, 6]
+console.log("4.Doubled evens:", result); // [4, 8, 12]
+
+console.log("************************************************");
+
+// =====================
+// 5. Event-Driven Programming
+// =====================
+console.log("5.Event-Driven Programming");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.createElement("button");
+  btn.textContent = "Click Me";
+  document.body.appendChild(btn);
+
+  btn.addEventListener("click", () => {
+    alert("5.Button was clicked! (Event Driven)");
+  });
+});
+
+console.log("************************************************");
+// =====================
+// 6. Asynchronous Programming
+// =====================
+console.log("6.Asynchronous Programming");
+
+function fetchData() {
+  return new Promise(resolve => {
+    setTimeout(() => resolve("Data loaded"), 1000);
+  });
+}
+
+async function loadAsyncData() {
+  console.log("6.Loading...");
+  const data = await fetchData();
+  console.log(data);
+}
+
+loadAsyncData();
+
+console.log("************************************************");
+  </script>
+</body>
+</html>
