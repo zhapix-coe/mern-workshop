@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HTML Page Lifecycle Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #log { margin-top: 20px; background: #f5f5f5; padding: 10px; border: 1px solid #ccc; height: 200px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <h1>HTML Page Lifecycle Demo</h1>
+  <p>Open your browser console or see the log below to observe lifecycle events.</p>
+
+  <div id="log"></div>
+
+  <script>
+    function log(msg) {
+      console.log(msg);
+      const logDiv = document.getElementById('log');
+      logDiv.innerHTML += `<div>📌 ${msg}</div>`;
+    }
+
+    log('📦 Script loaded (before DOMContentLoaded)');
+
+    // DOMContentLoaded: when HTML is parsed
+    document.addEventListener('DOMContentLoaded', () => {
+        alert('DOMContentLoaded')
+      log('✅ DOM fully loaded and parsed');
+    });
+
+    // load: when page and all resources (images, styles) are fully loaded
+    window.addEventListener('load', () => {
+        alert('load');
+        
+      log('✅ Entire page (CSS/images) fully loaded');
+    });
+
+    // beforeunload: just before leaving the page
+    window.addEventListener('beforeunload', (e) => {
+      log('⚠️ beforeunload: User is about to leave');
+      
+      
+      e.preventDefault();           // Required for showing prompt
+      e.returnValue = '';           // Standard message (browser controlled)
+      log('⚠️ beforeunload: last line');
+    });
+
+    // unload: when page is unloading
+    window.addEventListener('unload', () => {
+        
+        
+      console.log('👋 Page is unloading (unload event)');
+    });
+  </script>
+</body>
+</html>
