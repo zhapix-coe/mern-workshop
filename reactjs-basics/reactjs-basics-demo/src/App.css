@@ -1,0 +1,65 @@
+ 
+      header {
+        background-color: green;
+        width: 90%;
+        height: 50px;
+        color: white;
+        display: flex;
+        justify-content: center;
+      }
+      main {
+        background-color: blueviolet;
+        display: flex;
+        width: 90%;
+        justify-content: center;
+      }
+
+      .form-section,
+      .table-section {
+        width: 40%;
+        margin: 10px;
+        border: solid;
+        border-radius: 10px;
+        background-color: orange;
+        padding: 10px;
+        
+        height: 250px;
+      }
+      button {
+        display: block;
+
+        margin: auto;        
+        margin-top: 10px;
+        
+      }
+      input {
+        width: 90%;
+      }
+      tr,
+      td,
+      th {
+        border: solid 1px;
+        padding: 10px;
+      }
+      table{
+        background-color: rgb(23, 208, 137);
+      }
+      form {
+        background-color: blue;
+        height: 150px;
+        padding: 10px;
+        color:white
+      }
+      footer {
+        display: flex;
+        justify-content: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 90%;
+        background-color: deepskyblue;
+      }
+      label{
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
