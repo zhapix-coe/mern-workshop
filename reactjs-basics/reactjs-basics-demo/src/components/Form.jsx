@@ -1,6 +1,7 @@
 
 
 export const FormSection = (props)=>{
+  
     return (
         
          <section class="form-section">
@@ -14,3 +15,4 @@ export const FormSection = (props)=>{
         
     )
 }
+

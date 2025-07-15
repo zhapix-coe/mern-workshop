@@ -1,14 +1,35 @@
+import { useEffect, useState } from "react";
 
- function Footer() {
+function Footer() {
+  //React Hook
+  const [test, setTest] = useState("Zhapix Center of Excellence");
+
+  
+
+console.log('Start Footer')
+
+  useEffect(()=>{
+    ///API -- fetch Bank statement () from server
+
+    console.log('Inside useEffect')
+
+    return ()=>{
+
+      console.log("Inside UnMount...")
+    }
 
 
-    return (
-      <footer>
-        <span> &copy; Zhapix Center of Excellence</span>
-      </footer>
+  });
 
 
-    )
- }
+  return (
+    <footer>
+      {console.log("Inside Return")}
 
- export default Footer;
+      <span> &copy; {test} </span>
+        <button onClick={()=>{setTest("Changed Footer")}}>ChangeFooter</button>
+    </footer>
+  );
+}
+
+export default Footer;

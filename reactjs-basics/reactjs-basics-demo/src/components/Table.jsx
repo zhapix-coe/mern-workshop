@@ -1,4 +1,8 @@
-export const TableSection = () => {
+import { NestedChild } from "./NestedChild";
+
+export const TableSection = (props) => {
+
+  
   return (
     <section class="table-section">
       <h3>Table Section</h3>
@@ -20,6 +24,7 @@ export const TableSection = () => {
           </tr>
         </tbody>
       </table>
+      <NestedChild rootValue={props.rootValue} />
     </section>
   );
 };
