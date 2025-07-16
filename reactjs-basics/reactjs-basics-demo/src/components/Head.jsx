@@ -1,3 +1,4 @@
+import { Menu } from "./Menu"
 
 
 export const Head=(props)=>{
@@ -7,6 +8,10 @@ export const Head=(props)=>{
     return (
         <header>
         <h2>Header Section: {props.userName}</h2>
+        <div style={{position:"relative"}}>
+
+          <Menu/>
+        </div>
       </header>
     )
 }
