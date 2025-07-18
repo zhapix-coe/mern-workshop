@@ -1,0 +1,81 @@
+
+
+      .intern-form-section {
+        border: solid 0.5px;
+
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      input {
+        width: 100%;
+        margin-bottom: 15px;
+        border: solid 0.5px;
+        height: 30px;
+        border-radius: 5px;
+      }
+
+      input[type="radio"] {
+        width: 30px;
+        height: 15px;
+      }
+
+      .btn-panel {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      .btn-panel button {
+        height: 30px;
+        width: 75px;
+        border-radius: 5px;
+        border: solid 0.05px;
+        margin-left: 5px;
+      }
+      .btn-panel button:first-child {
+        background-color: #ddd;
+      }
+      .btn-panel button:last-child {
+        background-color: rgba(0, 0, 255, 0.305);
+      }
+
+      .intern-table-section {
+        border: solid 0.5px;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+      }
+
+      table {
+        border: solid;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: solid 1px;
+        padding: 5px;
+        font-size: 12px;
+      }
+
+      .footer-section {
+        margin: 20px;
+      }
+
+      .footer-note {
+        display: flex;
+        justify-content: center;
+        margin: 50px;
+      }
+
+      .loader {
+        width: 300px;
+        height: 20px;
+        padding:10px;
+        border: solid 1px;
+        border-radius: 10px;
+        background-color: green;
+        font-size: 15px;
+        color:cyan;
+        margin: auto;
+        text-align: center;
+      }
