@@ -1,5 +1,5 @@
 export const InternHeader = () => (
   <header>
-    <h1>Intern Management System</h1>
+    <h1 style={{color:"green"}}>Intern Management System</h1>
   </header>
 );
