@@ -18,11 +18,11 @@ addUser(newUser);
 const server = http.createServer((req, res) => {
   console.log("Processing Request..");
 
-  if (req.url == "/home.html") {
+  if (req.url == "/home.html"  && req.method == "GET") {
     let respHTML = `
     <html>
     <body style="background-color:green;">
-    <h2> Hello Message from Server</h2>
+    <h2> Hello Message from Node Server</h2>
     </body>
     </html>
     `;
