@@ -19,9 +19,19 @@ const newUser = {
 
 addUser(newUser);
 
+
+// --------- Custom Middleware: Logger ---------
+function loggerMiddleware(req, res, next) {
+  const time = new Date().toISOString();
+  console.log(`[${time}] ${req.method} ${req.originalUrl}`);
+  next(); // move to the next middleware or route handler
+}
+
 //Static images / font / css / html - CDN
 app.use(express.static("public"));
 app.use(express.json());
+
+// app.use(loggerMiddleware);
 
 // Routing for the Endpoints
 app.get("/", (req, res) => {
