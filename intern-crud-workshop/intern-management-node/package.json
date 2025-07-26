@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node": "^20.19.4"
+  },
+  "name": "intern-management-node",
+  "version": "1.0.0",
+  "main": "node-express-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kevin",
+  "license": "ISC",
+  "description": ""
+}
