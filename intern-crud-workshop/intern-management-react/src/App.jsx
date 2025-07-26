@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import "./App.css";
 import { InternForm } from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
@@ -8,13 +8,80 @@ import { InternHeader } from "./components/InternHeader";
 function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
+  const [editId, setEditId] = useState(0);
   const [isEditMode, setEditMode] = useState(false);
+ 
 
-  const editInternForm = (internData) => {
+useEffect(() => {   
+    fetchInternList();
+  }, []);
+
+  const fetchInternList = () => {
+    fetch("http://localhost:2005/interns")
+      .then((res) => res.json())
+      .then((respData) => {        
+        setInternList(respData.data);
+      })
+      .catch((err) => {
+        console.log("Error::", err);
+      });
+  };
+
+
+  const addInternData = (internData) => {
+    fetch('http://localhost:2005/interns', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(internData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('User created:', data);
+      fetchInternList();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
+
+
+  const editInternData = (internData) => {
+    fetch(`http://localhost:2005/interns/${editId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(internData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+      fetchInternList();
+    })
+    .then(data => {
+      console.log('User Updated:', data);
+      fetchInternList();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+   const editInternForm = (internData) => {
     console.log("Inside editinernform", internData);
     setEditMode(true);
     setEditData(internData);
-    deleteIntern(internData);
+    setEditId(internData.internId);
+    // deleteIntern(internData);
   };
 
   const getMaxInternId = () => {
@@ -24,15 +91,32 @@ function App() {
     return maxInernId;
   };
 
+  const deleteInternData = (internId) => {
+    fetch(`http://localhost:2005/interns/${internId}`,{method:"DELETE"})
+      .then((res) => res.json())
+      .then((respData) => {        
+        // setInternList(respData.data);
+        fetchInternList();
+      })
+      .catch((err) => {
+        console.log("Error::", err);
+      });
+  };
+
   const addIntern = (internData) => {
-    setInternList([...internList, internData]);    
+    // setInternList([...internList, internData]);    
+    // addInternData(internData)
+    isEditMode? editInternData(internData):addInternData(internData);
+    setEditMode(false);
   };
 
   const deleteIntern = (internData) => {
-    const finalInternList = internList?.filter(
-      (curIntern) => curIntern.internId != internData.internId
-    );
-    setInternList([...finalInternList]);
+    // const finalInternList = internList?.filter(
+    //   (curIntern) => curIntern.internId != internData.internId
+    // );
+    // setInternList([...finalInternList]);
+     deleteInternData(internData.internId)
+
   };
 
   return (
