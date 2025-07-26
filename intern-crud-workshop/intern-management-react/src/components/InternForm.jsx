@@ -15,7 +15,7 @@ export const InternForm = ({
     const maxInternId = getMaxInternId();
 
     const internDetail = {
-      internId: maxInternId + 1,
+      // internId: maxInternId + 1,
       internName,
       internEmail,
       internPhone,

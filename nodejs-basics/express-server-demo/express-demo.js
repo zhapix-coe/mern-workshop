@@ -41,6 +41,7 @@ app.get("/", (req, res) => {
 app.get("/users", (req, res) => {
   res.json(userList);
 });
+
 // Create an user
 app.post("/users", (req, res) => {
   const { userName, userAge } = req.body;
