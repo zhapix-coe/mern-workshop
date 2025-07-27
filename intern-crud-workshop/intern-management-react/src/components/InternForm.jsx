@@ -5,30 +5,24 @@ export const InternForm = ({
   editData,
   getMaxInternId,
 }) => {
-  // 1. State Declarations
-  // All useState hooks should be declared at the top of the component
+  
   const [internName, setInternName] = useState("");
   const [internEmail, setInternEmail] = useState("");
   const [internPhone, setInternPhone] = useState(0);
   const [internLocation, setInternLocation] = useState("");
   const [internStatus, setInternStatus] = useState("");
 
-  // 2. useEffect Hooks
-  // Group all useEffect hooks after state declarations.
-  // This useEffect populates the form when editData changes.
+  
   useEffect(() => {
     setInternName(editData?.internName);
     setInternEmail(editData?.internEmail);
     setInternPhone(editData?.internPhone);
-    // There's a potential bug here: you're setting internPhone twice.
-    // It should likely be setInternLocation for the second one.
-    setInternLocation(editData?.internLocation); // Corrected this line
+    
+    setInternLocation(editData?.internLocation); 
     setInternStatus(editData?.internStatus);
   }, [editData]);
 
-  // 3. Helper Functions / Event Handlers
-  // Define functions that handle events or perform specific tasks.
-  // Order them logically, e.g., clearForm might be used by handleCancel and handleSubmit.
+  
   const clearForm = () => {
     setInternName("");
     setInternEmail("");
@@ -58,11 +52,10 @@ export const InternForm = ({
     clearForm();
   };
 
-  // 4. Return Statement (JSX)
-  // The JSX rendering logic always comes last in the component function.
+  
   return (
     <section className="intern-form-section">
-      {console.log("Inside Render...")} {/* Consider removing console.logs from render */}
+      {console.log("Inside Render...")}
       <h3>Intern Form</h3>
       <form id="internForm">
         <label>
@@ -126,7 +119,7 @@ export const InternForm = ({
               onChange={(event) => {
                 setInternStatus(event.target.value);
               }}
-              checked={internStatus === "Active"} // Use strict equality (===)
+              checked={internStatus === "Active"} 
             />
             Active
           </label>
@@ -138,13 +131,13 @@ export const InternForm = ({
               onChange={(event) => {
                 setInternStatus(event.target.value);
               }}
-              checked={internStatus === "InActive"} // Use strict equality (===)
+              checked={internStatus === "InActive"} 
             />
             InActive
           </label>
         </div>
         <div className="btn-panel">
-          {/* Use type="button" for cancel to prevent form submission */}
+          
           <button type="button" onClick={handleCancel}>Cancel</button>
           <button type="submit" onClick={handleSubmit}>
             Save
