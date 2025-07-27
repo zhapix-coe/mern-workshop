@@ -11,7 +11,8 @@ const TestIntern = {
     internName:'Sandy',
     internEmail: 'sandy@gmail.com',
     internPhone:94544545,
-    internStatus: 'Active'
+    internStatus: 'Active',
+    gradStatus : 'Yes'
 }
 
 const addIntern= (internDetail)=>{
@@ -37,9 +38,9 @@ res.set("content-type","application/json");
 app.post("/interns", (req, res) => {
     console.log(req.body);
     
-  const { internName, internEmail,internPhone,internStatus } = req.body;
+  const { internName, internEmail,internPhone,internStatus,gradStatus } = req.body;
   const newInternId = internList.length + 1;
-  addIntern({ internId: newInternId, internName, internEmail,internPhone,internStatus });
+  addIntern({ internId: newInternId, internName, internEmail,internPhone,internStatus,gradStatus });
   res.status(200).send({ message: `Name:${internName} is added Succcessfully!` });
 });
 
@@ -48,12 +49,13 @@ app.put("/interns/:id", (req, res) => {
   console.log("Entering into Update Intern");
   
   const internId = parseInt(req.params.id);
-  const { internName, internEmail,internPhone,internStatus } = req.body;
+  const { internName, internEmail,internPhone,internStatus,gradStatus } = req.body;
   const internData = internList.find((curintern) => curintern.internId == internId);
   internData.internName = internName;
   internData.internEmail = internEmail;
   internData.internPhone = internPhone;
   internData.internStatus = internStatus;
+  gradStatus.gradStatus = gradStatus;
   res.json({ message: `Name:${internName} is updated Succcessfully!` });
 });
 

@@ -14,6 +14,7 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
               <th>Email</th>
               <th>Phone</th>
               <th>Status</th>
+              <th>Graduate</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -25,12 +26,14 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
                 internEmail,
                 internPhone,
                 internStatus,
+                gradStatus,
               }) => (
                 <tr>
                   <td>{internName}</td>
                   <td>{internEmail}</td>
                   <td>{internPhone}</td>
                   <td>{internStatus}</td>
+                  <td>{gradStatus}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -40,6 +43,7 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
                           internEmail,
                           internPhone,
                           internStatus,
+                          gradStatus,
                         });
                       }}
                     >
@@ -53,6 +57,7 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
                           internEmail,
                           internPhone,
                           internStatus,
+                          gradStatus,
                         });
                       }}
                     >

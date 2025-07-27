@@ -9,6 +9,7 @@ export const InternForm = ({
   const [internEmail, setInternEmail] = useState("");
   const [internPhone, setInternPhone] = useState(0);
   const [internStatus, setInternStatus] = useState("");
+  const [gradStatus, setgradStatus] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ export const InternForm = ({
       internEmail,
       internPhone,
       internStatus,
+      gradStatus,
     };
     addIntern(internDetail);
     clearForm();
@@ -30,6 +32,7 @@ export const InternForm = ({
     setInternEmail("");
     setInternPhone(0);
     setInternStatus("");
+    setgradStatus("");
   };
 
   const handleCancel = (event) => {
@@ -42,6 +45,7 @@ export const InternForm = ({
     setInternEmail(editData?.internEmail);
     setInternPhone(editData?.internPhone);
     setInternStatus(editData?.internStatus);
+    setgradStatus(editData?.gradStatus);
   }, [editData]);
 
   return (
@@ -112,6 +116,35 @@ export const InternForm = ({
               checked={internStatus == "InActive"}
             />
             InActive
+          </label>
+        </div>
+
+         <label>Is Graduate:</label>
+
+        <div className="radio-group">
+          <label>
+            <input
+              name="graduate"
+              type="radio"
+              value="Yes"
+              onChange={(event) => {
+                setgradStatus(event.target.value);
+              }}
+              checked={gradStatus == "Yes"}
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              name="graduate"
+              type="radio"
+              value="No"
+              onChange={(event) => {
+                setgradStatus(event.target.value);
+              }}
+              checked={gradStatus == "No"}
+            />
+             No
           </label>
         </div>
         <div className="btn-panel">
