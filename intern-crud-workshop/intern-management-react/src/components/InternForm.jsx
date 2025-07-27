@@ -7,11 +7,18 @@ export const InternForm = ({
 }) => {
   const [internName, setInternName] = useState("");
   const [internEmail, setInternEmail] = useState("");
-  const [internPhone, setInternPhone] = useState(0);
+  const [internPhone, setInternPhone] = useState("");
+  const [internStream, setInternStream] = useState("");
   const [internStatus, setInternStatus] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+   if (!internStream || internStream.trim() === "") {
+  alert("Please select a stream.");
+  return;
+}
+
     const maxInternId = getMaxInternId();
 
     const internDetail = {
@@ -19,8 +26,11 @@ export const InternForm = ({
       internName,
       internEmail,
       internPhone,
-      internStatus,
+      internStream,
+      internStatus
     };
+    console.log("Submitted Data:", internDetail);
+
     addIntern(internDetail);
     clearForm();
   };
@@ -28,8 +38,9 @@ export const InternForm = ({
   const clearForm = () => {
     setInternName("");
     setInternEmail("");
-    setInternPhone(0);
-    setInternStatus("");
+    setInternPhone("");
+    setInternStream("");
+    setInternStatus("")
   };
 
   const handleCancel = (event) => {
@@ -37,15 +48,17 @@ export const InternForm = ({
     clearForm();
   };
 
-  useEffect(() => {
-    setInternName(editData?.internName);
-    setInternEmail(editData?.internEmail);
-    setInternPhone(editData?.internPhone);
-    setInternStatus(editData?.internStatus);
-  }, [editData]);
+useEffect(() => {
+  setInternName(editData?.internName || "");
+  setInternEmail(editData?.internEmail || "");
+  setInternPhone(editData?.internPhone || "");
+  setInternStream(editData?.internStream || "");
+  setInternStatus(editData?.internStatus || "");
+}, [editData]);
+
 
   return (
-    <section className="intern-form-section">
+      <section className="intern-form-section">
       {console.log("Inside Render...")}
       <h3>Intern Form</h3>
       <form id="internForm">
@@ -55,65 +68,73 @@ export const InternForm = ({
             type="text"
             id="internName"
             value={internName}
-            onChange={(event) => {
-              setInternName(event.target.value);
-            }}
+            onChange={(event) => setInternName(event.target.value)}
             required
           />
         </label>
+
         <label>
           Email:
           <input
             type="email"
             id="internEmail"
             value={internEmail}
-            onChange={(event) => {
-              setInternEmail(event.target.value);
-            }}
+            onChange={(event) => setInternEmail(event.target.value)}
             required
           />
         </label>
+
         <label>
-          Phone:{" "}
+          Phone:
           <input
             type="number"
             id="internPhone"
-            value={internPhone || ""}
-            onChange={(event) => {
-              setInternPhone(event.target.value);
-            }}
+            value={internPhone}
+            onChange={(event) => setInternPhone(event.target.value)}
             required
           />
         </label>
 
-        <label>Status:</label>
+  <label>
+  Stream:
+  <select
+    id="internStream"
+    value={internStream}
+    onChange={(event) => setInternStream(event.target.value)}
+    required
+  >
+    <option value="">-- Select Stream --</option>
+    <option value="FullStack">FullStack</option>
+    <option value="Automation Testing">Automation Testing</option>
+  </select>
+</label>
 
+
+        <label>Status:</label>
         <div className="radio-group">
           <label>
             <input
               name="internStatus"
               type="radio"
               value="Active"
-              onChange={(event) => {
-                setInternStatus(event.target.value);
-              }}
-              checked={internStatus == "Active"}
+              onChange={(event) => setInternStatus(event.target.value)}
+              checked={internStatus === "Active"}
             />
             Active
           </label>
+
           <label>
             <input
               name="internStatus"
               type="radio"
               value="InActive"
-              onChange={(event) => {
-                setInternStatus(event.target.value);
-              }}
-              checked={internStatus == "InActive"}
+              onChange={(event) => setInternStatus(event.target.value)}
+              checked={internStatus === "InActive"}
             />
             InActive
           </label>
         </div>
+
         <div className="btn-panel">
           <button onClick={handleCancel}>Cancel</button>
           <button type="submit" onClick={handleSubmit}>
