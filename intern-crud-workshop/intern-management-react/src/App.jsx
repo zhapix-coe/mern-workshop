@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   const fetchInternList = () => {
-    fetch("http://localhost:3111/interns")
+    fetch("http://localhost:3112/interns")
       .then((res) => res.json())
       .then((respData) => {        
         setInternList(respData.data);
@@ -29,7 +29,7 @@ function App() {
 
 
   const addInternData = (internData) => {
-    fetch('http://localhost:3111/interns', {
+    fetch('http://localhost:3112/interns', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ function App() {
 
 
   const editInternData = (internData) => {
-    fetch(`http://localhost:3111/interns/${editId}`, {
+    fetch(`http://localhost:3112/interns/${editId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ function App() {
 
 
   const deleteInternData = (internId) => {
-    fetch(`http://localhost:3111/interns/${internId}`,{method:"DELETE"})
+    fetch(`http://localhost:3112/interns/${internId}`,{method:"DELETE"})
       .then((res) => res.json())
       .then((respData) => {        
         // setInternList(respData.data);

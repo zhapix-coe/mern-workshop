@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
-  
+  console.log("internList received:", internList);
 
   return (
     <>
@@ -13,55 +11,40 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Stream</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {internList?.map(
-              ({
-                internId,
-                internName,
-                internEmail,
-                internPhone,
-                internStatus,
-              }) => (
-                <tr>
-                  <td>{internName}</td>
-                  <td>{internEmail}</td>
-                  <td>{internPhone}</td>
-                  <td>{internStatus}</td>
+            {internList?.map((intern) => {
+              console.log("➡️ Intern row:", intern); 
+              return (
+                <tr key={intern.internId}>
+                  <td>{intern.internName}</td>
+                  <td>{intern.internEmail}</td>
+                  <td>{intern.internPhone}</td>
+                  <td>{intern.internStream || intern.stream || "N/A"}</td> 
+                  <td>{intern.internStatus}</td>
                   <td>
                     <button
                       onClick={() => {
-                        editInternForm({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
+                        editInternForm(intern);
                       }}
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => {
-                        deleteIntern({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
+                        deleteIntern(intern);
                       }}
                     >
                       Delete
                     </button>
                   </td>
                 </tr>
-              )
-            )}
+              );
+            })}
           </tbody>
         </table>
       </section>
