@@ -12,6 +12,7 @@ export const InternTable = ({ internList, editInternForm,deleteIntern }) => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Location</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -23,12 +24,14 @@ export const InternTable = ({ internList, editInternForm,deleteIntern }) => {
                   internName,
                   internEmail,
                   internPhone,
+                  internLocation,
                   internStatus,
                 }) => (
                   <tr>
                     <td>{internName}</td>
                     <td>{internEmail}</td>
                     <td>{internPhone}</td>
+                    <td>{internLocation}</td>
                     <td>{internStatus}</td>
                     <td>
                       <button
@@ -38,6 +41,7 @@ export const InternTable = ({ internList, editInternForm,deleteIntern }) => {
                             internName,
                             internEmail,
                             internPhone,
+                            internLocation,
                             internStatus,
                           });
                         }}
@@ -51,6 +55,7 @@ export const InternTable = ({ internList, editInternForm,deleteIntern }) => {
                             internName,
                             internEmail,
                             internPhone,
+                            internLocation,
                             internStatus,
                           });
                         }}

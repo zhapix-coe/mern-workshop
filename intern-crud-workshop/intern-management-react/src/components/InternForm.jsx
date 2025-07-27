@@ -8,6 +8,7 @@ export const InternForm = ({
   const [internName, setInternName] = useState("");
   const [internEmail, setInternEmail] = useState("");
   const [internPhone, setInternPhone] = useState(0);
+  const [internLocation, setInternLocation] = useState("");
   const [internStatus, setInternStatus] = useState("");
 
   const handleSubmit = (event) => {
@@ -19,6 +20,7 @@ export const InternForm = ({
       internName,
       internEmail,
       internPhone,
+      internLocation,
       internStatus,
     };
     addIntern(internDetail);
@@ -29,6 +31,7 @@ export const InternForm = ({
     setInternName("");
     setInternEmail("");
     setInternPhone(0);
+    setInternLocation("");
     setInternStatus("");
   };
 
@@ -41,6 +44,7 @@ export const InternForm = ({
     setInternName(editData?.internName);
     setInternEmail(editData?.internEmail);
     setInternPhone(editData?.internPhone);
+    setInternPhone(editData?.internLocation);
     setInternStatus(editData?.internStatus);
   }, [editData]);
 
@@ -81,6 +85,19 @@ export const InternForm = ({
             value={internPhone || ""}
             onChange={(event) => {
               setInternPhone(event.target.value);
+            }}
+            required
+          />
+        </label>
+
+        <label>
+          Location:
+          <input
+            type="text"
+            id="internLocation"
+            value={internLocation}
+            onChange={(event) => {
+              setInternLocation(event.target.value);
             }}
             required
           />
