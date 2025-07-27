@@ -1,70 +1,33 @@
-import { useEffect, useState } from "react";
-
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
-  
-
   return (
-    <>
-      <section className="intern-table-section">
-        <h3>Intern List</h3>
-        <table id="internTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {internList?.map(
-              ({
-                internId,
-                internName,
-                internEmail,
-                internPhone,
-                internStatus,
-              }) => (
-                <tr>
-                  <td>{internName}</td>
-                  <td>{internEmail}</td>
-                  <td>{internPhone}</td>
-                  <td>{internStatus}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        editInternForm({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteIntern({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
-      </section>
-    </>
+    <section>
+      <h3>Intern List</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone Number </th><th>Status</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {internList.length === 0 ? (
+            <tr><td colSpan="5">No interns found</td></tr>
+          ) : (
+            internList.map((intern) => (
+              <tr key={intern.internId}>
+                <td>{intern.internName}</td>
+                <td>{intern.internEmail}</td>
+                <td>{intern.internPhone}</td>
+                <td>{intern.internStatus}</td>
+                <td>
+                  <button onClick={() => editInternForm(intern)}>Edit</button>
+                  <button onClick={() => deleteIntern(intern)}>Delete</button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+    </section>
   );
 };

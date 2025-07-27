@@ -47,12 +47,12 @@ export const InternForm = ({
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(trimmedEmail)) {
-      alert("Please enter a valid email.");
+      alert("Please enter a valid Email.");
       return;
     }
 
     if (!/^\d{10}$/.test(internPhone)) {
-      alert("Phone number must be 10 digits.");
+      alert("Phone Number must be 10 digits.");
       return;
     }
 
