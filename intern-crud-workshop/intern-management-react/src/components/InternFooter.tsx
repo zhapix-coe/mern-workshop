@@ -1,11 +1,6 @@
-export const InternFooter = () => {
-  return (
-    <>
-      <footer className="footer-section">
-        <span className="footer-note">
-          Copyright Reserved - Intern Management System
-        </span>
-      </footer>
-    </>
-  );
-};
+export const InternFooter = () => (
+  <div className="footer-note">
+  © Copyright Reserved | Intern Management System
+</div>
+
+);
