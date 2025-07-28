@@ -1,19 +1,21 @@
+
 import { useState, useEffect } from "react";
 import './app.css';
-import { InternForm } from "./components/InternForm";
+import InternForm from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
 import { InternFooter } from "./components/InternFooter";
 import { InternHeader } from "./components/InternHeader";
+
 
 function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // Fetch initial data
+  // ✅ Correct useEffect with fetch
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
+      .then((response) => response.json())
       .then((data) => {
         const formatted = data.map((user, index) => ({
           internId: index + 1,
@@ -21,6 +23,9 @@ function App() {
           internEmail: user.email,
           internPhone: user.phone.replace(/\D/g, "").slice(0, 10),
           internStatus: "Active",
+          internStream: "Backend",
+          gradStatus: false,
+          internPlace: "Unknown" // ✅ Add default place
         }));
         setInternList(formatted);
       })
@@ -45,7 +50,7 @@ function App() {
     );
 
     if (isDuplicate) {
-      alert("Duplicate Email or phone Number. Entry not allowed.");
+      alert("Duplicate email or phone number. Entry not allowed.");
       return;
     }
 
@@ -58,7 +63,7 @@ function App() {
       (intern) =>
         intern.internId !== updated.internId &&
         (intern.internEmail.toLowerCase() === updated.internEmail.toLowerCase() ||
-         intern.internPhone === updated.internPhone)
+          intern.internPhone === updated.internPhone)
     );
 
     if (isDuplicate) {

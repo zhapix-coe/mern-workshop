@@ -1,6 +1,7 @@
-export const InternFooter = () => (
-  <div className="footer-note">
-  © Copyright Reserved | Intern Management System
-</div>
 
+export const InternFooter = () => (
+  <footer className="footer-section">
+    <p className="footer-note">© 2025 Intern Tracker. All rights reserved.</p>
+  </footer>
 );
+
