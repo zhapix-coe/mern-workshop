@@ -3,7 +3,7 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - Crud-validation  # or your default branch
+      - mern-app-deployment  # or your default branch
 
 jobs:
   build-and-deploy:
@@ -24,7 +24,7 @@ jobs:
       - name: Build project
         run: npm run build  # assumes this outputs to dist/ or build/
         working-directory: ./intern-crud-workshop/intern-management-react/
-        
+
       - name: Deploy to Repo B (GitHub Pages repo)
         uses: peaceiris/actions-gh-pages@v4
         with:
