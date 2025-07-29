@@ -1,6 +1,5 @@
-
 import { useEffect, useState } from "react";
-import "../index.css";
+import "../index.css"; // optional styling
 
 const InternForm = ({
   addIntern,
@@ -26,7 +25,7 @@ const InternForm = ({
       setInternStream(editData.internStream || "");
       setInternStatus(editData.internStatus || "");
       setInternPlace(editData.internPlace || "");
-      setGradStatus(editData.gradStatus === true ? "true" : "false");
+      setGradStatus(editData.gradStatus ? "true" : "false");
     } else {
       clearForm();
     }
@@ -45,24 +44,21 @@ const InternForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const trimmedName = internName.trim();
-    const trimmedEmail = internEmail.trim();
-
     if (
-      !trimmedName ||
-      !trimmedEmail ||
+      !internName.trim() ||
+      !internEmail.trim() ||
       !internPhone ||
       !internStream ||
-      !gradStatus ||
       !internStatus ||
-      !internPlace
+      !internPlace ||
+      gradStatus === ""
     ) {
-      alert("All fields are required.");
+      alert("Please fill in all fields.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(trimmedEmail)) {
+    if (!emailRegex.test(internEmail)) {
       alert("Please enter a valid email.");
       return;
     }
@@ -74,8 +70,8 @@ const InternForm = ({
 
     const internData = {
       internId: isEditMode ? editData.internId : getMaxInternId() + 1,
-      internName: trimmedName,
-      internEmail: trimmedEmail,
+      internName: internName.trim(),
+      internEmail: internEmail.trim(),
       internPhone,
       internStream,
       internStatus,
@@ -83,15 +79,24 @@ const InternForm = ({
       gradStatus: gradStatus === "true",
     };
 
-    isEditMode ? updateIntern(internData) : addIntern(internData);
+    if (isEditMode) {
+      updateIntern(internData);
+    } else {
+      addIntern(internData);
+    }
+
     clearForm();
-    resetEditMode();
+    resetEditMode(); // Close form
   };
 
   const handleCancel = () => {
     clearForm();
-    resetEditMode();
+    resetEditMode(); // Close form
   };
+  {/* New "Show Table" button */}
+          <button type="button" onClick={resetEditMode} className="show-table-btn">
+            Show Table
+          </button>
 
   return (
     <section className={`intern-form-section ${isEditMode ? "editing" : ""}`}>
@@ -127,73 +132,43 @@ const InternForm = ({
           />
         </label>
 
-        <div className="row-group">
-          <div className="form-group half">
-            <label>Stream:</label>
-            <select
-              value={internStream}
-              onChange={(e) => setInternStream(e.target.value)}
-              required
-            >
-              <option value="">Select Stream</option>
-              <option value="Frontend">Frontend</option>
-              <option value="Backend">Backend</option>
-              <option value="Fullstack">Fullstack</option>
-              <option value="Automation Testing">Automation Testing</option>
-            </select>
-          </div>
+        <label>
+          Stream:
+          <select
+            value={internStream}
+            onChange={(e) => setInternStream(e.target.value)}
+            required
+          >
+            <option value="">Select Stream</option>
+            <option value="Frontend">Frontend</option>
+            <option value="Backend">Backend</option>
+            <option value="Fullstack">Fullstack</option>
+            <option value="Testing">Testing</option>
+          </select>
+        </label>
 
-          <div className="form-group half">
-            <label className="radio-title">Graduate:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  name="graduate"
-                  value="true"
-                  checked={gradStatus === "true"}
-                  onChange={() => setGradStatus("true")}
-                />
-                Yes
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="graduate"
-                  value="false"
-                  checked={gradStatus === "false"}
-                  onChange={() => setGradStatus("false")}
-                />
-                No
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label className="radio-title">Status:</label>
-          <div className="radio-group">
-            <label>
-              <input
-                type="radio"
-                name="status"
-                value="Active"
-                checked={internStatus === "Active"}
-                onChange={(e) => setInternStatus(e.target.value)}
-              />
-              Active
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="status"
-                value="InActive"
-                checked={internStatus === "InActive"}
-                onChange={(e) => setInternStatus(e.target.value)}
-              />
-              InActive
-            </label>
-          </div>
+        <label>Status:</label>
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="status"
+              value="Active"
+              checked={internStatus === "Active"}
+              onChange={(e) => setInternStatus(e.target.value)}
+            />
+            Active
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="status"
+              value="InActive"
+              checked={internStatus === "InActive"}
+              onChange={(e) => setInternStatus(e.target.value)}
+            />
+            InActive
+          </label>
         </div>
 
         <label>
@@ -206,6 +181,30 @@ const InternForm = ({
           />
         </label>
 
+        <label>Graduate:</label>
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="graduate"
+              value="true"
+              checked={gradStatus === "true"}
+              onChange={() => setGradStatus("true")}
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="graduate"
+              value="false"
+              checked={gradStatus === "false"}
+              onChange={() => setGradStatus("false")}
+            />
+            No
+          </label>
+        </div>
+
         <div className="btn-panel">
           <button type="submit" className="save-btn">
             Save
@@ -213,6 +212,7 @@ const InternForm = ({
           <button type="button" onClick={handleCancel} className="cancel-btn">
             Cancel
           </button>
+          
         </div>
       </form>
     </section>

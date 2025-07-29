@@ -1,21 +1,19 @@
-
 import { useState, useEffect } from "react";
 import './app.css';
 import InternForm from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
-import { InternFooter } from "./components/InternFooter";
 import { InternHeader } from "./components/InternHeader";
-
+import { InternFooter } from "./components/InternFooter";
 
 function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState("list"); // 'list' or 'form'
 
-  // ✅ Correct useEffect with fetch
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((user, index) => ({
           internId: index + 1,
@@ -24,102 +22,121 @@ function App() {
           internPhone: user.phone.replace(/\D/g, "").slice(0, 10),
           internStatus: "Active",
           internStream: "Backend",
-          gradStatus: false,
-          internPlace: "Unknown" // ✅ Add default place
+          gradStatus: true,
+          internPlace: "Unknown",
         }));
         setInternList(formatted);
       })
-      .catch((err) => {
-        console.error("Fetch error:", err);
-      });
+      .catch(console.error);
   }, []);
 
-  // Get next intern ID
-  const getMaxInternId = () =>
-    internList.reduce(
+  const getMaxInternId = () => {
+    if (internList.length === 0) return 0;
+    return internList.reduce(
       (max, intern) => (intern.internId > max ? intern.internId : max),
       0
     );
+  };
 
-  // Add intern with duplicate check
   const addIntern = (data) => {
-    const isDuplicate = internList.some(
+    const duplicate = internList.some(
       (intern) =>
         intern.internEmail.toLowerCase() === data.internEmail.toLowerCase() ||
         intern.internPhone === data.internPhone
     );
-
-    if (isDuplicate) {
+    if (duplicate) {
       alert("Duplicate email or phone number. Entry not allowed.");
       return;
     }
-
     setInternList([...internList, data]);
+    setCurrentPage("list"); // go back to list page
   };
 
-  // Update intern with duplicate check
-  const updateIntern = (updated) => {
-    const isDuplicate = internList.some(
+  const updateIntern = (data) => {
+    const duplicate = internList.some(
       (intern) =>
-        intern.internId !== updated.internId &&
-        (intern.internEmail.toLowerCase() === updated.internEmail.toLowerCase() ||
-          intern.internPhone === updated.internPhone)
+        intern.internId !== data.internId &&
+        (intern.internEmail.toLowerCase() === data.internEmail.toLowerCase() ||
+          intern.internPhone === data.internPhone)
     );
-
-    if (isDuplicate) {
+    if (duplicate) {
       alert("Duplicate email or phone number exists. Update not allowed.");
       return;
     }
-
     setInternList(
-      internList.map((i) =>
-        i.internId === updated.internId ? updated : i
-      )
+      internList.map((i) => (i.internId === data.internId ? data : i))
     );
     setEditData({});
     setIsEditMode(false);
+    setCurrentPage("list");
   };
 
   const editInternForm = (data) => {
     setEditData(data);
     setIsEditMode(true);
+    setCurrentPage("form");
   };
 
   const deleteIntern = (data) => {
-    const updatedList = internList.filter(
-      (i) => i.internId !== data.internId
-    );
-    setInternList(updatedList);
+    setInternList(internList.filter((i) => i.internId !== data.internId));
     setEditData({});
     setIsEditMode(false);
+  };
+
+  const cancelForm = () => {
+    setEditData({});
+    setIsEditMode(false);
+    setCurrentPage("list");
   };
 
   return (
     <>
       <InternHeader />
-      <main>
-        <InternForm
-          addIntern={addIntern}
-          updateIntern={updateIntern}
-          editData={editData}
-          isEditMode={isEditMode}
-          getMaxInternId={getMaxInternId}
-          resetEditMode={() => {
-            setEditData({});
-            setIsEditMode(false);
-          }}
-        />
-
-        <InternTable
-          internList={internList}
-          editInternForm={editInternForm}
-          deleteIntern={deleteIntern}
-        />
-
-        {/* Intern count at bottom-right only */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px" }}>
+      <main style={{ padding: "20px" }}>
+        {currentPage === "list" && (
+          <>
+            <button
+              onClick={() => {
+                setIsEditMode(false);
+                setEditData({});
+                setCurrentPage("form");
+              }}
+              style={{ marginBottom: "20px" }}
+            >
+              Add Intern
+            </button>
+            <InternTable 
+              internList={internList}
+              editInternForm={editInternForm}
+              deleteIntern={deleteIntern}
+            />
+          </>
+        )}
+        {currentPage === "form" && (
+  <>
+    <button
+      onClick={() => {
+        setIsEditMode(false);
+        setEditData({});
+        setCurrentPage("list");  // fix here
+      }}
+      style={{ marginBottom: "20px" }}
+    >
+      Show Table
+    </button>
+    <InternForm
+      addIntern={addIntern}
+      updateIntern={updateIntern}
+      editData={editData}
+      isEditMode={isEditMode}
+      getMaxInternId={getMaxInternId}
+      resetEditMode={cancelForm}
+    />
+  </>
+)}
+        <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px" }}>
           <span style={{ fontWeight: "bold", color: "#333" }}>
-            Total Interns Submitted: {internList.length}
+            Total Interns: {internList.length}
           </span>
         </div>
       </main>

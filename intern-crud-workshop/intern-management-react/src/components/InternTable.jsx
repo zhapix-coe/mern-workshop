@@ -1,10 +1,10 @@
-// components/InternTable.jsx
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
   return (
     <section>
       <h3>Intern List</h3>
-      <table>
-        <thead>
+      <h3></h3>
+      <table border="1" cellPadding="8" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead style={{ backgroundColor: "#f4f4f4" }}>
           <tr>
             <th>Name</th>
             <th>Email</th>
@@ -19,7 +19,7 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
         <tbody>
           {internList.length === 0 ? (
             <tr>
-              <td colSpan="8">No interns found</td>
+              <td colSpan="8" style={{ textAlign: "center" }}>No interns found</td>
             </tr>
           ) : (
             internList.map((intern) => (
@@ -30,10 +30,14 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
                 <td>{intern.internStream}</td>
                 <td>{intern.internStatus}</td>
                 <td>{intern.internPlace}</td>
-                <td>{intern.gradStatus === true ? "Yes" : intern.gradStatus === false ? "No" : "-"}</td>
+                <td>{intern.gradStatus === true ? "Yes" : "No"}</td>
                 <td>
-                  <button onClick={() => editInternForm(intern)}>Edit</button>
-                  <button onClick={() => deleteIntern(intern)}>Delete</button>
+                  <button onClick={() => editInternForm(intern)} style={{ marginRight: "8px" }}>
+                    Edit
+                  </button>
+                  <button onClick={() => deleteIntern(intern)} style={{ backgroundColor: "#e74c3c", color: "white" }}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))
