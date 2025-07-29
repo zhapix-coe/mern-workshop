@@ -17,11 +17,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'v22.13.1'  # or your required version
-
-      - name: Install dependencies
-        run: npm install  # or npm install
       - name: Go to Project folder
         run: cd intern-crud-workshop/intern-management-react/
+      - name: Install dependencies
+        run: npm install  # or npm install
       - name: Build project
         run: npm run build  # assumes this outputs to dist/ or build/
       - name: Deploy to Repo B (GitHub Pages repo)
