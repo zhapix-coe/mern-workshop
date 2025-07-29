@@ -20,10 +20,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install  # or npm install
-
+      - name: Go to Project folder
+        run: cd intern-crud-workshop/intern-management-react/
       - name: Build project
         run: npm run build  # assumes this outputs to dist/ or build/
-
       - name: Deploy to Repo B (GitHub Pages repo)
         uses: peaceiris/actions-gh-pages@v4
         with:
