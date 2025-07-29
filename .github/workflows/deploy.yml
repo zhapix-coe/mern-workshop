@@ -16,14 +16,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'v22.13.1'  # or your required version
-      - name: Go to Project folder
-        run: cd intern-crud-workshop/intern-management-react/
+          node-version: '22.13.1'  # or your required version
       - name: Install dependencies
         run: npm install  # or npm install
+        working-directory: ./intern-crud-workshop/intern-management-react/        
+
       - name: Build project
         run: npm run build  # assumes this outputs to dist/ or build/
         working-directory: ./intern-crud-workshop/intern-management-react/
+        
       - name: Deploy to Repo B (GitHub Pages repo)
         uses: peaceiris/actions-gh-pages@v4
         with:
