@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import './app.css';
+import './App.css';
 import InternForm from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
 import { InternFooter } from "./components/InternFooter";
