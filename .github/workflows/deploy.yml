@@ -1,0 +1,35 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - Crud-validation  # or your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo A (source)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'v22.13.1'  # or your required version
+
+      - name: Install dependencies
+        run: npm ci  # or npm install
+
+      - name: Build project
+        run: npm run build  # assumes this outputs to dist/ or build/
+
+      - name: Deploy to Repo B (GitHub Pages repo)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.TARGET_REPO_TOKEN }}
+          external_repository: zhapix-coe/mern-crud-app
+          publish_dir: ./dist  # or ./build
+          publish_branch: main  # or gh-pages if used
+          user_name: vijayancpt
+          user_email: vijayan.thanigaivelu@gmail.com
