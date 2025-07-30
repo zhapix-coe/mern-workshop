@@ -79,28 +79,24 @@ const InternForm = ({
       gradStatus: gradStatus === "true",
     };
 
-    if (isEditMode) {
-      updateIntern(internData);
-    } else {
-      addIntern(internData);
-    }
+    const success = isEditMode
+      ? updateIntern(internData)
+      : addIntern(internData);
 
-    clearForm();
-    resetEditMode(); // Close form
+    if (success !== false) {
+      clearForm();
+      resetEditMode();
+    }
   };
 
   const handleCancel = () => {
     clearForm();
-    resetEditMode(); // Close form
+    resetEditMode();
   };
-  {/* New "Show Table" button */}
-          <button type="button" onClick={resetEditMode} className="show-table-btn">
-            Show Table
-          </button>
 
   return (
     <section className={`intern-form-section ${isEditMode ? "editing" : ""}`}>
-      <h2>{isEditMode ? "Edit Intern" : "Add Intern"}</h2>
+      <h2>{isEditMode ? "Add Intern" : "Add Intern"}</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -127,7 +123,10 @@ const InternForm = ({
           <input
             type="text"
             value={internPhone}
-            onChange={(e) => setInternPhone(e.target.value)}
+            onChange={(e) =>
+              setInternPhone(e.target.value.replace(/\D/g, ""))
+            }
+            maxLength={10}
             required
           />
         </label>
@@ -212,7 +211,6 @@ const InternForm = ({
           <button type="button" onClick={handleCancel} className="cancel-btn">
             Cancel
           </button>
-          
         </div>
       </form>
     </section>

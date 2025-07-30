@@ -25,8 +25,8 @@ body {
 
 /* Highlight edit mode */
 .intern-form-section.editing {
-  background-color: #fff8dc;
-  border: 2px dashed orange;
+  background-color: #dcdcff;
+
 }
 
 /* Inputs */
@@ -69,12 +69,14 @@ input[type="radio"] {
 }
 
 .btn-panel button:first-child {
-  background-color: rgba(0, 0, 255, 0.305); /* Save */
+  background-color: rgba(0, 0, 255, 0.305);
+  /* Save */
   color: white;
 }
 
 .btn-panel button:last-child {
-  background-color: #ddd; /* Cancel */
+  background-color: #ddd;
+  /* Cancel */
 }
 
 /* Intern table section */
@@ -91,7 +93,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: solid 1px;
   padding: 8px;
   font-size: 12px;
@@ -114,11 +117,12 @@ th, td {
   font-weight: bold;
   color: green;
 }
+
 .intern-table-section {
   border: solid 0.5px;
   padding: 10px;
-  margin: 0 20px 20px 20px; /* top right bottom left */
+  margin: 0 20px 20px 20px;
+  /* top right bottom left */
   border-radius: 10px;
   background-color: #fdfdfd;
 }
-
