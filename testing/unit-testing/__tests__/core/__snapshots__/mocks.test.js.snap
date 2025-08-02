@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Demonstration of Mocks for Unit Testing validate partial mocking of a module 1`] = `3`;
