@@ -160,7 +160,7 @@ if (!internPlace.trim()) {
             type="email"
             value={internEmail}
             onChange={handleEmailChange}
-            placeholder="Enter email"
+            placeholder="Enter Email"
           />
           {combinedErrors.internEmail && <div className="error-text">{combinedErrors.internEmail}</div>}
         </label>
@@ -171,7 +171,7 @@ if (!internPlace.trim()) {
             type="text"
             value={internPhone}
             onChange={handlePhoneChange}
-            placeholder="Enter Phone number"
+            placeholder="Enter Phone Number"
             maxLength={10}
           />
           {combinedErrors.internPhone && <div className="error-text">{combinedErrors.internPhone}</div>}
