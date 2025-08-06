@@ -12,6 +12,7 @@ body {
   font-size: 24px;
   font-weight: bold;
   margin: 20px 0;
+  position: static; /* Ensures no sticky/fixed/absolute if previously applied */
 }
 
 /* Intern form section */
@@ -21,18 +22,26 @@ body {
   border-radius: 10px;
   margin: 0 20px 20px 20px;
   background-color: #fdfdfd;
+  position: static;
 }
 
-/* Highlight edit mode */
+/* Highlight when editing */
 .intern-form-section.editing {
   background-color: #dcdcff;
-
 }
 
-/* Inputs */
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+/* Input fields */
 input[type="text"],
 input[type="email"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
   margin-bottom: 15px;
   padding: 6px;
@@ -46,14 +55,22 @@ input[type="radio"] {
   height: 16px;
 }
 
-/* Radio group layout */
+/* Focus styles */
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 1px;
+}
+
+/* Radio group */
 .radio-group {
   display: flex;
   gap: 20px;
   margin-bottom: 15px;
 }
 
-/* Button panel (Save/Cancel) */
+/* Button panel */
 .btn-panel {
   display: flex;
   flex-direction: row-reverse;
@@ -68,26 +85,35 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-.btn-panel button:first-child {
-  background-color: rgba(0, 0, 255, 0.305);
-  /* Save */
-  color: white;
-}
-
 .btn-panel button:last-child {
   background-color: #ddd;
-  /* Cancel */
+}
+
+.btn-panel button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Error messages */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
 /* Intern table section */
 .intern-table-section {
   border: solid 0.5px;
   padding: 10px;
-  margin: 0 20px;
+  margin: 0 20px 20px 20px;
   border-radius: 10px;
+  background-color: #fdfdfd;
+  position: static;
 }
 
-/* Table */
+/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -110,7 +136,7 @@ td {
   color: #555;
 }
 
-/* Intern count (bottom right) */
+/* Total intern count */
 .total-interns {
   text-align: right;
   margin: 10px 20px 0 0;
@@ -118,11 +144,18 @@ td {
   color: green;
 }
 
-.intern-table-section {
-  border: solid 0.5px;
-  padding: 10px;
-  margin: 0 20px 20px 20px;
-  /* top right bottom left */
-  border-radius: 10px;
-  background-color: #fdfdfd;
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .intern-form-section,
+  .intern-table-section {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  table {
+    font-size: 11px;
+  }
 }
+
+
+

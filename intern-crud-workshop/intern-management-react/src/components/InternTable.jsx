@@ -1,73 +1,97 @@
-// components/InternTable.jsx
-export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
-  return (
-    <section>
-      <h3>Intern List</h3>
-      <table
-        border="1"
-        cellPadding="8"
-        style={{ width: "100%", borderCollapse: "collapse" }}
-      >
-        <thead style={{ backgroundColor: "#f4f4f4" }}>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Stream</th>
-            <th>Status</th>
-            <th>Place</th>
-            <th>Graduate</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {internList.length === 0 ? (
-            <tr>
-              <td colSpan="8" style={{ textAlign: "center" }}>
-                No interns found
-              </td>
-            </tr>
-          ) : (
-            internList.map((intern) => (
-              <tr key={intern.internId}>
-                <td>{intern.internName}</td>
-                <td>{intern.internEmail}</td>
-                <td>{intern.internPhone}</td>
-                <td>{intern.internStream}</td>
-                <td>{intern.internStatus}</td>
-                <td>{intern.internPlace}</td>
-                <td>{intern.gradStatus ? "Yes" : "No"}</td>
-                <td>
-                  <button
-                    onClick={() => editInternForm(intern)}
-                    style={{ marginRight: "8px" }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteIntern(intern)}
-                    style={{ backgroundColor: "#e74c3c", color: "white" }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+import React from "react";
 
+export default function InternTable({
+  internList,
+  editInternForm,
+  deleteIntern,
+  totalInterns,
+  editingInternId,
+}) {
+  return (
+    <section className="intern-table-section">
       <div
+        className="intern-table-header"
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          paddingTop: "10px",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1rem",
         }}
       >
-        <span style={{ fontWeight: "bold", color: "#333" }}>
-          Total Interns: {internList.length}
-        </span>
+        <h2 style={{ margin: 0 }}>Intern List</h2>
+        <div style={{ fontWeight: "bold" }}>
+          <span style={{ color: "#007bff" }}>{totalInterns}</span>
+        </div>
       </div>
+
+      {internList.length === 0 ? (
+        <p>No interns found.</p>
+      ) : (
+        <table
+          className="intern-table"
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            border: "1px solid #ddd",
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: "#f5f5f5" }}>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Stream</th>
+              <th>Graduate</th>
+              <th>Place</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {internList.map((intern) => {
+              const isEditing = intern.internId === editingInternId;
+
+              return (
+                <tr
+                  key={intern.internId}
+                  className={`intern-row ${isEditing ? "editing" : ""}`}
+                  style={{
+                    backgroundColor: isEditing ? "#e6f7ff" : "white",
+                    transition: "background-color 0.3s ease",
+                  }}
+                >
+                  <td>{intern.internId}</td>
+                  <td>{intern.internName}</td>
+                  <td>{intern.internEmail}</td>
+                  <td>{intern.internPhone}</td>
+                  <td>{intern.internStatus}</td>
+                  <td>{intern.internStream}</td>
+                  <td>{intern.gradStatus ? "Yes" : "No"}</td>
+                  <td>{intern.internPlace}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => editInternForm(intern)}
+                      className="edit-btn"
+                      style={{ marginRight: "8px" }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteIntern(intern)}
+                      className="delete-btn"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </section>
   );
-};
+}
