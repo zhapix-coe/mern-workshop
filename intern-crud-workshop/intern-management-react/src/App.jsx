@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import './app.css';
+import "./app.css";
 import InternForm from "./components/InternForm";
-import { InternTable } from "./components/InternTable";
+import InternTable from "./components/InternTable";
 import { InternHeader } from "./components/InternHeader";
 import { InternFooter } from "./components/InternFooter";
 
@@ -9,7 +9,8 @@ function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
-  const [currentPage, setCurrentPage] = useState("list");
+  const [formErrors, setFormErrors] = useState({});
+  const [currentPage, setCurrentPage] = useState("table"); // Start with table
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -30,36 +31,28 @@ function App() {
       .catch(console.error);
   }, []);
 
-  const getMaxInternId = () => {
-    if (internList.length === 0) return 0;
-    return internList.reduce(
-      (max, intern) => (intern.internId > max ? intern.internId : max),
-      0
-    );
-  };
+  const getMaxInternId = () =>
+    internList.reduce((max, intern) => Math.max(max, intern.internId), 0);
 
   const addIntern = (data) => {
     const duplicateEmail = internList.some(
-      (intern) =>
-        intern.internEmail.toLowerCase() === data.internEmail.toLowerCase()
+      (intern) => intern.internEmail.toLowerCase() === data.internEmail.toLowerCase()
     );
-
     const duplicatePhone = internList.some(
       (intern) => intern.internPhone === data.internPhone
     );
 
-    if (duplicateEmail) {
-      alert("Duplicate Email. Entry not allowed.");
-      return false;
-    }
-
-    if (duplicatePhone) {
-      alert("Duplicate Phone Number. Entry not allowed.");
+    if (duplicateEmail || duplicatePhone) {
+      setFormErrors({
+        internEmail: duplicateEmail ? "Email already exists." : "",
+        internPhone: duplicatePhone ? "Phone number already exists." : "",
+      });
       return false;
     }
 
     setInternList([...internList, data]);
-    setCurrentPage("list");
+    setFormErrors({});
+    setCurrentPage("table");
     return true;
   };
 
@@ -69,20 +62,17 @@ function App() {
         intern.internId !== data.internId &&
         intern.internEmail.toLowerCase() === data.internEmail.toLowerCase()
     );
-
     const duplicatePhone = internList.some(
       (intern) =>
         intern.internId !== data.internId &&
         intern.internPhone === data.internPhone
     );
 
-    if (duplicateEmail) {
-      alert("Duplicate Email exists. Update not allowed.");
-      return false;
-    }
-
-    if (duplicatePhone) {
-      alert("Duplicate Phone Number exists. Update not allowed.");
+    if (duplicateEmail || duplicatePhone) {
+      setFormErrors({
+        internEmail: duplicateEmail ? "Email already exists." : "",
+        internPhone: duplicatePhone ? "Phone number already exists." : "",
+      });
       return false;
     }
 
@@ -91,13 +81,15 @@ function App() {
     );
     setEditData({});
     setIsEditMode(false);
-    setCurrentPage("list");
+    setFormErrors({});
+    setCurrentPage("table");
     return true;
   };
 
   const editInternForm = (data) => {
     setEditData(data);
     setIsEditMode(true);
+    setFormErrors({});
     setCurrentPage("form");
   };
 
@@ -110,55 +102,60 @@ function App() {
   const cancelForm = () => {
     setEditData({});
     setIsEditMode(false);
-    setCurrentPage("list");
+    setFormErrors({});
+    setCurrentPage("table");
   };
 
   return (
     <>
       <InternHeader />
-      <main style={{ padding: "20px" }}>
-        {currentPage === "list" && (
-          <>
-            <button
-              className="sticky-right"
-              onClick={() => {
-                setIsEditMode(false);
-                setEditData({});
-                setCurrentPage("form");
-              }}
-            >
-              show Intern
-            </button>
-            <InternTable
-              internList={internList}
-              editInternForm={editInternForm}
-              deleteIntern={deleteIntern}
-            />
-          </>
-        )}
-        {currentPage === "form" && (
-          <>
-            <button
-              className="sticky-left"
-              onClick={() => {
-                setIsEditMode(false);
-                setEditData({});
-                setCurrentPage("list");
-              }}
-            >
-              Show Table
-            </button>
-            <InternForm
-              addIntern={addIntern}
-              updateIntern={updateIntern}
-              editData={editData}
-              isEditMode={isEditMode}
-              getMaxInternId={getMaxInternId}
-              resetEditMode={cancelForm}
-            />
-          </>
-        )}
-      </main>
+
+      <div className={`toggle-bar ${currentPage === "table" ? "align-right" : "align-left"}`}>
+        <button
+          onClick={() => {
+            if (currentPage === "table") {
+              setEditData({});
+              setIsEditMode(false);
+              setCurrentPage("form");
+            } else {
+              setCurrentPage("table");
+            }
+          }}
+        >
+          {currentPage === "table" ? "Show Form" : "Show Table"}
+        </button>
+      </div>
+
+
+      {currentPage === "table" && (
+        <div className="intern-table-wrapper">
+          {/* Total Interns Count */}
+          <div style={{ textAlign: "right", padding: "0 20px", fontWeight: "bold" }}>
+            Total Interns: {internList.length}
+          </div>
+
+          <InternTable
+            internList={internList}
+            editInternForm={editInternForm}
+            deleteIntern={deleteIntern}
+          />
+        </div>
+      )}
+
+      {currentPage === "form" && (
+        <div className="intern-form-wrapper">
+          <InternForm
+            addIntern={addIntern}
+            updateIntern={updateIntern}
+            editData={editData}
+            isEditMode={isEditMode}
+            getMaxInternId={getMaxInternId}
+            resetEditMode={cancelForm}
+            formErrors={formErrors}
+          />
+        </div>
+      )}
+
       <InternFooter />
     </>
   );
