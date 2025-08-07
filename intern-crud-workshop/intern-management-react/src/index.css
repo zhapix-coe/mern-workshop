@@ -1,4 +1,162 @@
- body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 12px;
-      }
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header centered */
+.header-section {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  position: static; /* Ensures no sticky/fixed/absolute if previously applied */
+}
+
+/* Intern form section */
+.intern-form-section {
+  border: solid 0.5px;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 0 20px 20px 20px;
+  background-color: #fdfdfd;
+  position: static;
+}
+
+/* Highlight when editing */
+.intern-form-section.editing {
+  background-color: #dcdcff;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 6px;
+  border: solid 0.5px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* Focus styles */
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 1px;
+}
+
+/* Radio group */
+.radio-group {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+/* Button panel */
+.btn-panel {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+}
+
+.btn-panel button {
+  /*height: 30px;
+  width: 75px;*/
+  border-radius: 5px;
+  border: solid 0.5px;
+  cursor: pointer;
+}
+
+
+.btn-panel button:last-child {
+  background-color: #ddd;
+}
+
+.btn-panel button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Error messages */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Intern table section */
+.intern-table-section {
+  border: solid 0.5px;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  border-radius: 10px;
+  background-color: #fdfdfd;
+  position: static;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: solid 1px;
+  padding: 8px;
+  font-size: 12px;
+  text-align: left;
+}
+
+/* Footer */
+.footer-note {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 20px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Total intern count */
+.total-interns {
+  text-align: right;
+  margin: 10px 20px 0 0;
+  font-weight: bold;
+  color: green;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .intern-form-section,
+  .intern-table-section {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  table {
+    font-size: 11px;
+  }
+}
+
+
+
