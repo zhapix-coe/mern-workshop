@@ -131,11 +131,8 @@ input[type="text"][maxLength="10"] {
 
 /* Save Button */
 .save-btn {
-  background-color: blue;
-  color: white;
-  text-align: center;
-  display: flex;
-  align-items: center;
+  background-color: var(--sky-blue);
+ /* color: white; */
   padding: 10px 20px;
   border-radius: 6px;
   border: none;
@@ -143,7 +140,14 @@ input[type="text"][maxLength="10"] {
   font-weight: 600;
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: var(--sky-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 /* Cancel Button */
@@ -161,7 +165,7 @@ input[type="text"][maxLength="10"] {
 
 .cancel-btn:hover {
   background-color: #999;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 /* Toggle Bar */
@@ -378,5 +382,11 @@ button.delete-btn:hover {
     font-size: 18px;
   }
 }
+.intern-form-section.editing h2 {
+  color: var(--primary-dark);
+}
 
-
+.intern-form-section.editing input,
+.intern-form-section.editing select {
+  background-color: #eef7ff; /* Lighter background for inputs */
+}
