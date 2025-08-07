@@ -34,13 +34,7 @@
         border: solid 0.05px;
         margin-left: 5px;
       }
-      .btn-panel button:first-child {
-        background-color: #ddd;
-      }
-      .btn-panel button:last-child {
-        background-color: rgba(0, 0, 255, 0.305);
-      }
-
+    
       .intern-table-section {
         border: solid 0.5px;
         padding: 10px;
