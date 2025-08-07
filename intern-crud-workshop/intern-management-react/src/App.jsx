@@ -1,161 +1,144 @@
-import { useState, useEffect } from "react";
-import "./app.css";
-import InternForm from "./components/InternForm";
-import InternTable from "./components/InternTable";
-import { InternHeader } from "./components/InternHeader";
+import { useState,useEffect } from "react";
+import "./App.css";
+import { InternForm } from "./components/InternForm";
+import { InternTable } from "./components/InternTable";
 import { InternFooter } from "./components/InternFooter";
+import { InternHeader } from "./components/InternHeader";
 
 function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [currentPage, setCurrentPage] = useState("table"); // Start with table
+  const [editId,setEditId] = useState(0);
+  const [isEditMode, setEditMode] = useState(false);
+  
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        const formatted = data.map((user, index) => ({
-          internId: index + 1,
-          internName: user.name,
-          internEmail: user.email,
-          internPhone: user.phone.replace(/\D/g, "").slice(0, 10),
-          internStatus: "Active",
-          internStream: ["Frontend", "Backend", "Fullstack", "Testing"][index % 4],
-          gradStatus: true,
-          internPlace: "Unknown",
-        }));
-        setInternList(formatted);
-      })
-      .catch(console.error);
+  useEffect(() => {   
+    fetchInternList();
   }, []);
 
-  const getMaxInternId = () =>
-    internList.reduce((max, intern) => Math.max(max, intern.internId), 0);
-
-  const addIntern = (data) => {
-    const duplicateEmail = internList.some(
-      (intern) => intern.internEmail.toLowerCase() === data.internEmail.toLowerCase()
-    );
-    const duplicatePhone = internList.some(
-      (intern) => intern.internPhone === data.internPhone
-    );
-
-    if (duplicateEmail || duplicatePhone) {
-      setFormErrors({
-        internEmail: duplicateEmail ? "Email already exists." : "",
-        internPhone: duplicatePhone ? "Phone number already exists." : "",
+  const fetchInternList = () => {
+    fetch("http://localhost:3111/interns")
+      .then((res) => res.json())
+      .then((respData) => {        
+        setInternList(respData.data);
+      })
+      .catch((err) => {
+        console.log("Error::", err);
       });
-      return false;
-    }
-
-    setInternList([...internList, data]);
-    setFormErrors({});
-    setCurrentPage("table");
-    return true;
   };
 
-  const updateIntern = (data) => {
-    const duplicateEmail = internList.some(
-      (intern) =>
-        intern.internId !== data.internId &&
-        intern.internEmail.toLowerCase() === data.internEmail.toLowerCase()
-    );
-    const duplicatePhone = internList.some(
-      (intern) =>
-        intern.internId !== data.internId &&
-        intern.internPhone === data.internPhone
-    );
 
-    if (duplicateEmail || duplicatePhone) {
-      setFormErrors({
-        internEmail: duplicateEmail ? "Email already exists." : "",
-        internPhone: duplicatePhone ? "Phone number already exists." : "",
+  const addInternData = (internData) => {
+    fetch('http://localhost:3111/interns', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(internData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('User created:', data);
+      fetchInternList();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
+
+
+  const editInternData = (internData) => {
+    fetch(`http://localhost:3111/interns/${editId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(internData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+      fetchInternList();
+    })
+    .then(data => {
+      console.log('User Updated:', data);
+      fetchInternList();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
+
+  const deleteInternData = (internId) => {
+    fetch(`http://localhost:3111/interns/${internId}`,{method:"DELETE"})
+      .then((res) => res.json())
+      .then((respData) => {        
+        // setInternList(respData.data);
+        fetchInternList();
+      })
+      .catch((err) => {
+        console.log("Error::", err);
       });
-      return false;
+  };
+
+
+  const editInternForm = (internData) => {
+    console.log("Inside editinernform", internData);
+    setEditMode(true);
+    setEditData(internData);
+    setEditId(internData.internId);
+    // const changedInternData = {...internData, internName:internData.internName+'changed'
+
     }
+    
+    // deleteIntern(internData);
+  
 
-    setInternList(
-      internList.map((i) => (i.internId === data.internId ? data : i))
-    );
-    setEditData({});
-    setIsEditMode(false);
-    setFormErrors({});
-    setCurrentPage("table");
-    return true;
+  const getMaxInternId = () => {
+    const maxInernId = internList.reduce((acc, cur) => {
+      return acc < cur.internId ? cur.internId : acc;
+    }, 0);
+    return maxInernId;
   };
 
-  const editInternForm = (data) => {
-    setEditData(data);
-    setIsEditMode(true);
-    setFormErrors({});
-    setCurrentPage("form");
+  const addIntern = (internData) => {
+    // setInternList([...internList, internData]);  
+    // console.log("AddInner: ",internData);
+    // console.log("Editmode:",isEditMode);    
+    isEditMode? editInternData(internData):addInternData(internData);
+    setEditMode(false);
   };
 
-  const deleteIntern = (data) => {
-    setInternList(internList.filter((i) => i.internId !== data.internId));
-    setEditData({});
-    setIsEditMode(false);
-  };
+  const deleteIntern = (internData) => {
+    // const finalInternList = internList?.filter(
+    //   (curIntern) => curIntern.internId != internData.internId
+    // );
+    // setInternList([...finalInternList]);
+    deleteInternData(internData.internId)
 
-  const cancelForm = () => {
-    setEditData({});
-    setIsEditMode(false);
-    setFormErrors({});
-    setCurrentPage("table");
   };
 
   return (
     <>
       <InternHeader />
-
-      <div className={`toggle-bar ${currentPage === "table" ? "align-right" : "align-left"}`}>
-        <button
-          onClick={() => {
-            if (currentPage === "table") {
-              setEditData({});
-              setIsEditMode(false);
-              setCurrentPage("form");
-            } else {
-              setCurrentPage("table");
-            }
-          }}
-        >
-          {currentPage === "table" ? "Show Form" : "Show Table"}
-        </button>
-      </div>
-
-
-      {currentPage === "table" && (
-        <div className="intern-table-wrapper">
-          {/* Total Interns Count */}
-          <div style={{ textAlign: "right", padding: "0 20px", fontWeight: "bold" }}>
-            Total Interns: {internList.length}
-          </div>
-
-          <InternTable
-            internList={internList}
-            editInternForm={editInternForm}
-            deleteIntern={deleteIntern}
-          />
-        </div>
-      )}
-
-      {currentPage === "form" && (
-        <div className="intern-form-wrapper">
-          <InternForm
-            addIntern={addIntern}
-            updateIntern={updateIntern}
-            editData={editData}
-            isEditMode={isEditMode}
-            getMaxInternId={getMaxInternId}
-            resetEditMode={cancelForm}
-            formErrors={formErrors}
-          />
-        </div>
-      )}
-
+      <main>
+        <InternForm
+          addIntern={addIntern}
+          editData={editData}
+          isEditMode={isEditMode}
+          getMaxInternId={getMaxInternId}
+        />
+        <InternTable internList={internList} editInternForm={editInternForm} deleteIntern={deleteIntern} />
+      </main>
       <InternFooter />
     </>
   );
