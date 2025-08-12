@@ -1,7 +1,7 @@
 // components/InternTable.jsx
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
   return (
-    <section>
+    <section id="Internlist">
       <h3>Intern List</h3>
       <table>
         <thead>
