@@ -1,8 +1,7 @@
+// InternTable.jsx
 import { useEffect, useState } from "react";
 
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
-  
-
   return (
     <>
       <section className="intern-table-section">
@@ -18,50 +17,22 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
             </tr>
           </thead>
           <tbody>
-            {internList?.map(
-              ({
-                internId,
-                internName,
-                internEmail,
-                internPhone,
-                internStatus,
-              }) => (
-                <tr>
-                  <td>{internName}</td>
-                  <td>{internEmail}</td>
-                  <td>{internPhone}</td>
-                  <td>{internStatus}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        editInternForm({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteIntern({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              )
-            )}
+            {internList?.map((intern) => (
+              <tr key={intern._id}> {/* Use the unique MongoDB _id as the key */}
+                <td>{intern.name}</td>
+                <td>{intern.email}</td>
+                <td>{intern.phone}</td>
+                <td>{intern.status}</td>
+                <td>
+                  <button onClick={() => editInternForm(intern)}>
+                    Edit
+                  </button>
+                  <button onClick={() => deleteIntern(intern)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>

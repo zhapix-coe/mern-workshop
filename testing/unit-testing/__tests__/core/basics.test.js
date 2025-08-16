@@ -1,4 +1,4 @@
-import {addValues,getValues,subtractValues} from './../../src/core/basics';
+ import {addValues,getValues,subtractValues} from './../../src/core/basics';
 
 
 describe('Basics of Javascript', () => {    
