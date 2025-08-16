@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-    name: String,
-    email:String,
-    age:Number
+const internSchema = new mongoose.Schema({
+    internId: Number,
+    internName: String,
+    internEmail: String,
+    internPhone: Number,
+    internStatus: String
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Intern", internSchema);
