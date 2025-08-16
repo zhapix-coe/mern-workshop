@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing to validate changes in file validate Property Matchers for dynamically changing values 1`] = `
+{
+  "createdAt": Any<Date>,
+  "id": Any<Number>,
+  "name": "LeBron James",
+}
+`;
+
+exports[`snapshot testing to validate changes in file validate Snapshot for a component 1`] = `
+<div>
+  <h1>
+    Hello from Snapshot
+  </h1>
+</div>
+`;

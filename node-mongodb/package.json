@@ -5,11 +5,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+<<<<<<< HEAD
   "author": "kevin",
+=======
+  "author": "",
+>>>>>>> f222f3b1e449969c6a401ac3fa3ad9724e14b36b
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
+<<<<<<< HEAD
     "mongoose": "^8.17.0"
+=======
+    "mongoose": "^8.16.5"
+>>>>>>> f222f3b1e449969c6a401ac3fa3ad9724e14b36b
   }
 }

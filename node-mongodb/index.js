@@ -42,4 +42,8 @@ app.delete('/users/:id', async (req, res) => {
 
 app.listen(2121, () => {
   console.log('Server running on http://localhost:2121');
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> f222f3b1e449969c6a401ac3fa3ad9724e14b36b
