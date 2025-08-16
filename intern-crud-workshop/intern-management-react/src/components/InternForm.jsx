@@ -1,8 +1,10 @@
+// InternForm.jsx
 import { useEffect, useState } from "react";
 
 export const InternForm = ({
   addIntern,
   editData,
+  isEditMode,
   getMaxInternId,
 }) => {
   const [internName, setInternName] = useState("");
@@ -12,15 +14,19 @@ export const InternForm = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const maxInternId = getMaxInternId();
 
     const internDetail = {
-      // internId: maxInternId + 1,
       internName,
       internEmail,
       internPhone,
       internStatus,
     };
+    
+    // In edit mode, add the _id
+    if (isEditMode) {
+      internDetail._id = editData._id;
+    }
+
     addIntern(internDetail);
     clearForm();
   };
@@ -38,15 +44,14 @@ export const InternForm = ({
   };
 
   useEffect(() => {
-    setInternName(editData?.internName);
-    setInternEmail(editData?.internEmail);
-    setInternPhone(editData?.internPhone);
-    setInternStatus(editData?.internStatus);
+    setInternName(editData?.name || ""); // Use 'name' from backend
+    setInternEmail(editData?.email || ""); // Use 'email' from backend
+    setInternPhone(editData?.phone || 0); // Use 'phone' from backend
+    setInternStatus(editData?.status || ""); // Use 'status' from backend
   }, [editData]);
 
   return (
     <section className="intern-form-section">
-      {console.log("Inside Render...")}
       <h3>Intern Form</h3>
       <form id="internForm">
         <label>
@@ -55,9 +60,7 @@ export const InternForm = ({
             type="text"
             id="internName"
             value={internName}
-            onChange={(event) => {
-              setInternName(event.target.value);
-            }}
+            onChange={(event) => setInternName(event.target.value)}
             required
           />
         </label>
@@ -67,9 +70,7 @@ export const InternForm = ({
             type="email"
             id="internEmail"
             value={internEmail}
-            onChange={(event) => {
-              setInternEmail(event.target.value);
-            }}
+            onChange={(event) => setInternEmail(event.target.value)}
             required
           />
         </label>
@@ -79,9 +80,7 @@ export const InternForm = ({
             type="number"
             id="internPhone"
             value={internPhone || ""}
-            onChange={(event) => {
-              setInternPhone(event.target.value);
-            }}
+            onChange={(event) => setInternPhone(event.target.value)}
             required
           />
         </label>
@@ -94,10 +93,8 @@ export const InternForm = ({
               name="internStatus"
               type="radio"
               value="Active"
-              onChange={(event) => {
-                setInternStatus(event.target.value);
-              }}
-              checked={internStatus == "Active"}
+              onChange={(event) => setInternStatus(event.target.value)}
+              checked={internStatus === "Active"}
             />
             Active
           </label>
@@ -106,10 +103,8 @@ export const InternForm = ({
               name="internStatus"
               type="radio"
               value="InActive"
-              onChange={(event) => {
-                setInternStatus(event.target.value);
-              }}
-              checked={internStatus == "InActive"}
+              onChange={(event) => setInternStatus(event.target.value)}
+              checked={internStatus === "InActive"}
             />
             InActive
           </label>
