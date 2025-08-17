@@ -40,6 +40,6 @@ app.delete('/users/:id', async (req, res) => {
   res.send({ message: 'User deleted' });
 });
 
-app.listen(2121, () => {
-  console.log('Server running on http://localhost:2121');
+app.listen(3111, () => {
+  console.log('Server running on http://localhost:3111');
 });

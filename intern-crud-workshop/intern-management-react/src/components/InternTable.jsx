@@ -1,8 +1,8 @@
+// InternTable.jsx
+
 import { useEffect, useState } from "react";
 
 export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
-  
-
   return (
     <>
       <section className="intern-table-section">
@@ -13,55 +13,31 @@ export const InternTable = ({ internList, editInternForm, deleteIntern }) => {
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              {/* Add the new table header for Stream */}
+              <th>Stream</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {internList?.map(
-              ({
-                internId,
-                internName,
-                internEmail,
-                internPhone,
-                internStatus,
-              }) => (
-                <tr>
-                  <td>{internName}</td>
-                  <td>{internEmail}</td>
-                  <td>{internPhone}</td>
-                  <td>{internStatus}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        editInternForm({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteIntern({
-                          internId,
-                          internName,
-                          internEmail,
-                          internPhone,
-                          internStatus,
-                        });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              )
-            )}
+            {internList?.map((intern) => (
+              <tr key={intern._id}>
+                <td>{intern.name}</td>
+                <td>{intern.email}</td>
+                <td>{intern.phone}</td>
+                {/* Add the new table data cell for Stream */}
+                <td>{intern.stream}</td>
+                <td>{intern.status}</td>
+                <td>
+                  <button onClick={() => editInternForm(intern)}>
+                    Edit
+                  </button>
+                  <button onClick={() => deleteIntern(intern)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>
