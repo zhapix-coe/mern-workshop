@@ -16,7 +16,7 @@ export const InternForm = ({
   const [internStatus, setInternStatus] = useState("");
 
   const navigate = useNavigate();
-  const { courses } = useCourseContext(); // Get the courses list from the context
+  const { courses } = useCourseContext(); 
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -105,9 +105,7 @@ export const InternForm = ({
               onChange={(event) => setInternStream(event.target.value)}
               required
             >
-              {/* This is the initial empty option */}
               <option value="">-- Select a Stream --</option>
-              {/* Dynamically map over the courses array from the context */}
               {courses.map((course, index) => (
                 <option key={index} value={course}>
                   {course}

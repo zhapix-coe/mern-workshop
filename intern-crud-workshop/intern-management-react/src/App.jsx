@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 // Correcting the import path for App.css
 import "./App.css";
-// Correcting the import paths for components based on your file structure
 import { InternForm } from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
 import { InternFooter } from "./components/InternFooter";
