@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const Participant = require('../intern-crud-workshop/models/Participant');
+// Corrected import path for Participant model
+// This assumes 'Participant.js' is in a 'models' folder directly within the same directory as 'server.js'
+const Participant = require('./models/Participant'); 
 
 const app = express();
-const port = 3111;
+const port = 3111; // Consistent port variable name
 
 const MONGODB_URI = 'mongodb://localhost:27017/intern_management';
 
@@ -36,7 +38,8 @@ app.post("/interns", async (req, res) => {
         });
         await newIntern.save();
         res.status(201).json({
-            message: `Intern ${internName} added successfully!`,c
+            // Corrected typo: removed 'c' and ensured correct string termination
+            message: `Intern ${internName} added successfully!`, 
             intern: newIntern
         });
     } catch (error) {
@@ -107,6 +110,7 @@ app.delete("/interns/:id", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+// Listen on the 'port' variable
+app.listen(port, () => { 
     console.log(`Server started at the port: ${port}`);
 });

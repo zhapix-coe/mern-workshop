@@ -1,5 +1,7 @@
 // InternForm.jsx
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useCourseContext } from '../CourseContext'; // Import the context hook
 
 export const InternForm = ({
   addIntern,
@@ -9,8 +11,12 @@ export const InternForm = ({
 }) => {
   const [internName, setInternName] = useState("");
   const [internEmail, setInternEmail] = useState("");
-  const [internPhone, setInternPhone] = useState(0);
+  const [internPhone, setInternPhone] = useState("");
+  const [internStream, setInternStream] = useState("");
   const [internStatus, setInternStatus] = useState("");
+
+  const navigate = useNavigate();
+  const { courses } = useCourseContext(); // Get the courses list from the context
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,10 +25,10 @@ export const InternForm = ({
       internName,
       internEmail,
       internPhone,
+      internStream,
       internStatus,
     };
-    
-    // In edit mode, add the _id
+
     if (isEditMode) {
       internDetail._id = editData._id;
     }
@@ -34,7 +40,8 @@ export const InternForm = ({
   const clearForm = () => {
     setInternName("");
     setInternEmail("");
-    setInternPhone(0);
+    setInternPhone("");
+    setInternStream("");
     setInternStatus("");
   };
 
@@ -43,11 +50,15 @@ export const InternForm = ({
     clearForm();
   };
 
+  const handleAddCourseClick = () => {
+    navigate('/add-stream');
+  };
+
   useEffect(() => {
-    setInternName(editData?.name || ""); // Use 'name' from backend
-    setInternEmail(editData?.email || ""); // Use 'email' from backend
-    setInternPhone(editData?.phone || 0); // Use 'phone' from backend
-    setInternStatus(editData?.status || ""); // Use 'status' from backend
+    setInternName(editData?.name || "");
+    setInternEmail(editData?.email || "");
+    setInternPhone(editData?.phone || "");
+    setInternStatus(editData?.status || "");
   }, [editData]);
 
   return (
@@ -79,14 +90,37 @@ export const InternForm = ({
           <input
             type="number"
             id="internPhone"
-            value={internPhone || ""}
+            value={internPhone}
             onChange={(event) => setInternPhone(event.target.value)}
             required
           />
         </label>
 
+        <label>
+          Stream:
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <select
+              id="internStream"
+              value={internStream}
+              onChange={(event) => setInternStream(event.target.value)}
+              required
+            >
+              {/* This is the initial empty option */}
+              <option value="">-- Select a Stream --</option>
+              {/* Dynamically map over the courses array from the context */}
+              {courses.map((course, index) => (
+                <option key={index} value={course}>
+                  {course}
+                </option>
+              ))}
+            </select>
+            <button type="button" onClick={handleAddCourseClick}>
+              Add Course
+            </button>
+          </div>
+        </label>
+        
         <label>Status:</label>
-
         <div className="radio-group">
           <label>
             <input

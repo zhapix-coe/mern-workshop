@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     phone: Number,
+    // Add the stream field to the schema
+    stream: String, 
     status: String
 });
 const User = mongoose.model("User", userSchema);
