@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const app = express();
 const portNumber = 3111;
+// Set the specific IP address you want the server to listen on
+const host = '10.10.100.85'; 
 
 app.use(cors());
 app.use(express.json());
@@ -18,14 +20,15 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     phone: Number,
-    // Add the stream field to the schema
     stream: String, 
-    status: String
+    status: String,
+    isGraduate: Boolean, 
+    place: String 
 });
 const User = mongoose.model("User", userSchema);
 
 // CREATE a user
-app.post('/users', async (req, res) => {
+app.post('/interns', async (req, res) => {
     try {
         const user = new User(req.body);
         await user.save();
@@ -36,7 +39,7 @@ app.post('/users', async (req, res) => {
 });
 
 // READ all users
-app.get('/users', async (req, res) => {
+app.get('/interns', async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).send(users);
@@ -46,7 +49,7 @@ app.get('/users', async (req, res) => {
 });
 
 // READ single user by ID
-app.get('/users/:id', async (req, res) => {
+app.get('/interns/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -59,7 +62,7 @@ app.get('/users/:id', async (req, res) => {
 });
 
 // UPDATE a user
-app.put('/users/:id', async (req, res) => {
+app.put('/interns/:id', async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!user) {
@@ -72,7 +75,7 @@ app.put('/users/:id', async (req, res) => {
 });
 
 // DELETE a user
-app.delete('/users/:id', async (req, res) => {
+app.delete('/interns/:id', async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) {
@@ -84,6 +87,7 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
-app.listen(portNumber, () => {
-    console.log(`Server started for Demo:: ${portNumber}`);
+// Listen on the specific IP address and port
+app.listen(portNumber, host, () => {
+    console.log(`Server started for Demo:: ${host}:${portNumber}`);
 });

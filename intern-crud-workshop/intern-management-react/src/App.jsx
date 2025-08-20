@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// Correcting the import path for App.css
 import "./App.css";
 import { InternForm } from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
@@ -10,26 +9,38 @@ function App() {
     const [internList, setInternList] = useState([]);
     const [editData, setEditData] = useState({});
     const [isEditMode, setEditMode] = useState(false);
+    // New state for displaying error messages
+    const [errorMessage, setErrorMessage] = useState(''); 
 
+    // Fetches the list of interns from the backend when the component mounts
     useEffect(() => {
         fetchInternList();
     }, []);
 
-    // Fetches the list of interns from the server
+    // Function to fetch all interns
     const fetchInternList = () => {
-        fetch("http://localhost:3111/users")
-            .then(res => res.json())
+        // Directly using the IP address and port
+        fetch("http://10.10.100.85:3111/interns") 
+            .then(res => {
+                if (!res.ok) { // Check if response is not OK (e.g., 404, 500)
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(respData => {
                 setInternList(respData);
+                setErrorMessage(''); // Clear any previous error messages on successful fetch
             })
             .catch(err => {
-                console.log("Error::", err);
+                console.error("Error fetching intern list:", err);
+                setErrorMessage(`Failed to fetch interns: ${err.message}`);
             });
     };
 
-    // Adds new intern data to the server
+    // Function to add a new intern (POST request)
     const addInternData = (internData) => {
-        fetch('http://localhost:3111/users', {
+        // Directly using the IP address and port
+        fetch('http://10.10.100.85:3111/interns', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(internData)
@@ -38,13 +49,20 @@ function App() {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             return response.json();
         })
-        .then(() => fetchInternList())
-        .catch(error => console.error('Error:', error));
+        .then(() => {g
+            fetchInternList(); // Refresh list after successful add
+            setErrorMessage(''); // Clear any error messages
+        })
+        .catch(error => {
+            console.error('Error adding intern:', error);
+            setErrorMessage(`Failed to add intern: ${error.message}`);
+        });
     };
 
-    // Edits existing intern data on the server
+    // Function to edit an existing intern (PUT request)
     const editInternData = (internData) => {
-        fetch(`http://localhost:3111/users/${internData._id}`, {
+        // Directly using the IP address and port
+        fetch(`http://10.10.100.85:3111/interns/${internData._id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(internData)
@@ -53,43 +71,68 @@ function App() {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             return response.json();
         })
-        .then(() => fetchInternList())
-        .catch(error => console.error('Error:', error));
+        .then(() => {
+            fetchInternList(); // Refresh list after successful edit
+            setErrorMessage(''); // Clear any error messages
+        })
+        .catch(error => {
+            console.error('Error editing intern:', error);
+            setErrorMessage(`Failed to edit intern: ${error.message}`);
+        });
     };
 
-    // Deletes an intern from the server
+    // Function to delete an intern (DELETE request)
     const deleteInternData = (internId) => {
-        fetch(`http://localhost:3111/users/${internId}`, { method: "DELETE" })
+        // Directly using the IP address and port
+        fetch(`http://10.10.100.85:3111/interns/${internId}`, { method: "DELETE" })
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
                 return res.json();
             })
-            .then(() => fetchInternList())
-            .catch(err => console.log("Error::", err));
+            .then(() => {
+                fetchInternList(); // Refresh list after successful delete
+                setErrorMessage(''); // Clear any error messages
+            })
+            .catch(err => {
+                console.error("Error deleting intern:", err);
+                setErrorMessage(`Failed to delete intern: ${err.message}`);
+            });
     };
 
-    // Sets the form to edit mode and populates with intern data
+    // Sets the form to edit mode and populates it with selected intern's data
     const editInternForm = (internData) => {
         setEditMode(true);
         setEditData(internData);
+        setErrorMessage(''); // Clear any error messages when starting edit
     };
 
-    // Main function to add or edit an intern based on the mode
+    // Handles logic for adding or editing an intern based on `isEditMode`
     const addIntern = (internData) => {
-        // Create the payload object to send to the server.
+        // Construct the payload with all fields, including new ones
         const payload = {
             name: internData.internName,
             email: internData.internEmail,
             phone: parseInt(internData.internPhone, 10),
             stream: internData.internStream,
-            status: internData.internStatus
+            status: internData.internStatus,
+            isGraduate: internData.isGraduate, // New field
+            place: internData.internPlace, // New field
         };
-        // Call the appropriate function based on the mode
-        isEditMode ? editInternData(payload) : addInternData(payload);
+
+        // If in edit mode, ensure the _id is included in the payload
+        if (isEditMode) {
+            payload._id = editData._id; 
+            editInternData(payload);
+        } else {
+            addInternData(payload);
+        }
+        
+        // Reset form and edit mode after submission
         setEditMode(false);
+        setEditData({}); // Clear edit data
     };
 
-    // Function to handle intern deletion
+    // Calls the delete function from the parent
     const deleteIntern = (internData) => {
         deleteInternData(internData._id);
     };
@@ -98,12 +141,23 @@ function App() {
         <>
             <InternHeader />
             <main>
+                {/* Display error message if present */}
+                {errorMessage && (
+                    <div style={{ color: 'red', textAlign: 'center', marginBottom: '10px', padding: '10px', border: '1px solid red', borderRadius: '5px', backgroundColor: '#ffe0e0' }}>
+                        {errorMessage}
+                    </div>
+                )}
                 <InternForm
                     addIntern={addIntern}
                     editData={editData}
                     isEditMode={isEditMode}
+                    setErrorMessage={setErrorMessage} // Pass the error message setter to InternForm
                 />
-                <InternTable internList={internList} editInternForm={editInternForm} deleteIntern={deleteIntern} />
+                <InternTable 
+                    internList={internList} 
+                    editInternForm={editInternForm} 
+                    deleteIntern={deleteIntern} 
+                />
             </main>
             <InternFooter />
         </>

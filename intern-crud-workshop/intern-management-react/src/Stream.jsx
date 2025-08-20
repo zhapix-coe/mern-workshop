@@ -2,21 +2,18 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCourseContext } from './CourseContext'; // Import the context hook
+import { useCourseContext } from './CourseContext'; 
 import './App.css'; 
 
 function Stream() {
   const [streamName, setStreamName] = useState('');
   const navigate = useNavigate();
-  const { addCourse } = useCourseContext(); // Use the hook to get the addCourse function
+  const { addCourse } = useCourseContext(); 
 
   const handleSave = () => {
-    // Make sure the stream name is not empty
     if (streamName.trim() !== '') {
-      // Call the function from the context to add the new stream
+
       addCourse(streamName);
-      
-      // After saving, redirect back to the main page
       navigate('/'); 
     }
   };
