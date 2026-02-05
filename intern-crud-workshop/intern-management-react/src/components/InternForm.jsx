@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import "../index.css";
 
@@ -9,6 +8,7 @@ const InternForm = ({
   isEditMode,
   getMaxInternId,
   resetEditMode,
+  existingInterns, // ✅ comes from App.js
 }) => {
   const [internName, setInternName] = useState("");
   const [internEmail, setInternEmail] = useState("");
@@ -17,6 +17,7 @@ const InternForm = ({
   const [internStatus, setInternStatus] = useState("");
   const [internPlace, setInternPlace] = useState("");
   const [gradStatus, setGradStatus] = useState("");
+  const [errors, setErrors] = useState({}); // ✅ store validation errors
 
   useEffect(() => {
     if (isEditMode && editData) {
@@ -40,43 +41,64 @@ const InternForm = ({
     setInternStatus("");
     setInternPlace("");
     setGradStatus("");
+    setErrors({});
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!internName.trim()) {
+      newErrors.internName = "Name is required.";
+    } else if (!/^[A-Za-z.\s]+$/.test(internName.trim())) {
+      newErrors.internName = "Name can only contain letters, spaces, and dots.";
+    }
+
+    if (!internEmail.trim()) {
+      newErrors.internEmail = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(internEmail.trim())) {
+      newErrors.internEmail = "Invalid email format.";
+    } else if (
+      existingInterns.some(
+        (intern) =>
+          intern.internId !== (editData?.internId || null) &&
+          intern.internEmail.toLowerCase() === internEmail.trim().toLowerCase()
+      )
+    ) {
+      newErrors.internEmail = "Duplicate email found.";
+    }
+
+    if (!internPhone.trim()) {
+      newErrors.internPhone = "Phone number is required.";
+    } else if (!/^\d{10}$/.test(internPhone.trim())) {
+      newErrors.internPhone = "Phone number must be 10 digits.";
+    } else if (
+      existingInterns.some(
+        (intern) =>
+          intern.internId !== (editData?.internId || null) &&
+          intern.internPhone === internPhone.trim()
+      )
+    ) {
+      newErrors.internPhone = "Duplicate phone number found.";
+    }
+
+    if (!internStatus) {
+      newErrors.internStatus = "Status is required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const trimmedName = internName.trim();
-    const trimmedEmail = internEmail.trim();
-
-    if (
-      !trimmedName ||
-      !trimmedEmail ||
-      !internPhone ||
-      !internStream ||
-      !gradStatus ||
-      !internStatus ||
-      !internPlace
-    ) {
-      alert("All fields are required.");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(trimmedEmail)) {
-      alert("Please enter a valid email.");
-      return;
-    }
-
-    if (!/^\d{10}$/.test(internPhone)) {
-      alert("Phone number must be 10 digits.");
-      return;
-    }
+    if (!validateForm()) return;
 
     const internData = {
       internId: isEditMode ? editData.internId : getMaxInternId() + 1,
-      internName: trimmedName,
-      internEmail: trimmedEmail,
-      internPhone,
+      internName: internName.trim(),
+      internEmail: internEmail.trim(),
+      internPhone: internPhone.trim(),
       internStream,
       internStatus,
       internPlace,
@@ -103,8 +125,8 @@ const InternForm = ({
             type="text"
             value={internName}
             onChange={(e) => setInternName(e.target.value)}
-            required
           />
+          {errors.internName && <p className="error">{errors.internName}</p>}
         </label>
 
         <label>
@@ -113,8 +135,8 @@ const InternForm = ({
             type="email"
             value={internEmail}
             onChange={(e) => setInternEmail(e.target.value)}
-            required
           />
+          {errors.internEmail && <p className="error">{errors.internEmail}</p>}
         </label>
 
         <label>
@@ -123,8 +145,8 @@ const InternForm = ({
             type="text"
             value={internPhone}
             onChange={(e) => setInternPhone(e.target.value)}
-            required
           />
+          {errors.internPhone && <p className="error">{errors.internPhone}</p>}
         </label>
 
         <div className="row-group">
@@ -194,6 +216,7 @@ const InternForm = ({
               InActive
             </label>
           </div>
+          {errors.internStatus && <p className="error">{errors.internStatus}</p>}
         </div>
 
         <label>

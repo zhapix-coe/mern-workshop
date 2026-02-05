@@ -1,18 +1,16 @@
-
 import { useState, useEffect } from "react";
-import './App.css';
+import "./App.css";
 import InternForm from "./components/InternForm";
 import { InternTable } from "./components/InternTable";
 import { InternFooter } from "./components/InternFooter";
 import { InternHeader } from "./components/InternHeader";
-
 
 function App() {
   const [internList, setInternList] = useState([]);
   const [editData, setEditData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // ✅ Correct useEffect with fetch
+  // ✅ Fetch initial dummy data
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
@@ -25,7 +23,7 @@ function App() {
           internStatus: "Active",
           internStream: "Backend",
           gradStatus: false,
-          internPlace: "Unknown" // ✅ Add default place
+          internPlace: "Unknown",
         }));
         setInternList(formatted);
       })
@@ -34,61 +32,39 @@ function App() {
       });
   }, []);
 
-  // Get next intern ID
+  // ✅ Get next intern ID
   const getMaxInternId = () =>
     internList.reduce(
       (max, intern) => (intern.internId > max ? intern.internId : max),
       0
     );
 
-  // Add intern with duplicate check
+  // ✅ Add intern (validation already handled in InternForm)
   const addIntern = (data) => {
-    const isDuplicate = internList.some(
-      (intern) =>
-        intern.internEmail.toLowerCase() === data.internEmail.toLowerCase() ||
-        intern.internPhone === data.internPhone
-    );
-
-    if (isDuplicate) {
-      alert("Duplicate email or phone number. Entry not allowed.");
-      return;
-    }
-
     setInternList([...internList, data]);
   };
 
-  // Update intern with duplicate check
+  // ✅ Update intern (validation already handled in InternForm)
   const updateIntern = (updated) => {
-    const isDuplicate = internList.some(
-      (intern) =>
-        intern.internId !== updated.internId &&
-        (intern.internEmail.toLowerCase() === updated.internEmail.toLowerCase() ||
-          intern.internPhone === updated.internPhone)
-    );
-
-    if (isDuplicate) {
-      alert("Duplicate email or phone number exists. Update not allowed.");
-      return;
-    }
-
     setInternList(
-      internList.map((i) =>
-        i.internId === updated.internId ? updated : i
-      )
+      internList.map((i) => (i.internId === updated.internId ? updated : i))
     );
     setEditData({});
     setIsEditMode(false);
   };
 
+  // ✅ Set edit mode
   const editInternForm = (data) => {
     setEditData(data);
     setIsEditMode(true);
   };
 
+  // ✅ Delete intern
   const deleteIntern = (data) => {
-    const updatedList = internList.filter(
-      (i) => i.internId !== data.internId
-    );
+    if (!window.confirm(`Are you sure you want to delete ${data.internName}?`))
+      return;
+
+    const updatedList = internList.filter((i) => i.internId !== data.internId);
     setInternList(updatedList);
     setEditData({});
     setIsEditMode(false);
@@ -108,6 +84,7 @@ function App() {
             setEditData({});
             setIsEditMode(false);
           }}
+          existingInterns={internList} // ✅ pass list for inline validation
         />
 
         <InternTable
@@ -116,8 +93,14 @@ function App() {
           deleteIntern={deleteIntern}
         />
 
-        {/* Intern count at bottom-right only */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px" }}>
+        {/* ✅ Intern count at bottom-right */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            padding: "10px",
+          }}
+        >
           <span style={{ fontWeight: "bold", color: "#333" }}>
             Total Interns Submitted: {internList.length}
           </span>
