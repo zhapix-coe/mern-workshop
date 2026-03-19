@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MERN Workshop Enrollment</title>
+    <script>
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        alert("Enrollment Submitted!");
+      };
+    </script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+      }
+
+      .container {
+        width: 350px;
+        margin: 100px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 6px;
+      }
+
+      input {
+        width: 95%;
+        padding: 8px;
+        margin: 10px 0;
+        float: right;
+      }
+
+      button {
+        width: 50%;
+        float: right;
+        padding: 8px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Workshop Enrollment</h2>
+
+      <form>
+        <input type="text" placeholder="Participant Name" />
+        <input type="email" placeholder="Email" />
+        <input type="text" placeholder="Phone No" />
+        <button type="submit" onclick="handleSubmit(event)">Enroll</button>
+      </form>
+    </div>
+  </body>
+</html>
